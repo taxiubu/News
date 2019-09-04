@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="@string/menu1"
+        android:id="@+id/menu1"/>
+    <item android:title="@string/menu2"
+        android:id="@+id/menu2"/>
+    <item android:title="@string/menu3"
+        android:id="@+id/menu3"/>
+    <item android:title="@string/menu4"
+        android:id="@+id/menu4"/>
+    <item android:title="@string/menu5"
+        android:id="@+id/menu5"/>
+    <item android:title="@string/menu6"
+        android:id="@+id/menu6"/>
+    <item android:title="@string/menu7"
+        android:id="@+id/menu7"/>
+    <item android:title="@string/menu8"
+        android:id="@+id/menu8"/>
+    <item android:title="@string/menu9"
+        android:id="@+id/menu9"/>
+    <item android:title="@string/menu10"
+        android:id="@+id/menu10"/>
+    <item android:title="@string/menu11"
+        android:id="@+id/menu11"/>
+    <item android:title="@string/menu12"
+        android:id="@+id/menu12"/>
+    <item android:title="@string/menu13"
+        android:id="@+id/menu13"/>
+    <item android:title="@string/menu14"
+        android:id="@+id/menu14"/>
+    <item android:title="@string/menu15"
+        android:id="@+id/menu15"/>
+    <item android:title="@string/menu16"
+        android:id="@+id/menu16"/>
+    <item android:title="@string/menu17"
+        android:id="@+id/menu17"/>
+    <item android:title="@string/menu18"
+        android:id="@+id/menu18"/>
+    <item android:title="@string/menu19"
+        android:id="@+id/menu19"/>
+</menu>
