@@ -1,6 +1,7 @@
 package com.example.newspaper.Activity.Activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import com.example.newspaper.Activity.Define.Define;
 import com.example.newspaper.Activity.Define.PublicMethod;
 import com.example.newspaper.Activity.Fragment.FragmentHistory;
-import com.example.newspaper.Activity.Fragment.FragmentHotVideos;
 import com.example.newspaper.Activity.Fragment.FragmentItems;
 import com.example.newspaper.Activity.Fragment.FragmentSave;
 import com.example.newspaper.Activity.Interface.ItemClick;
@@ -26,6 +26,7 @@ import com.example.newspaper.R;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ItemClick {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        getFragment(FragmentItems.newInstance(Define.RSS_to_Json_API +Define.RSS_cuoi));
+        getFragment(FragmentItems.newInstance(Define.RSS_to_Json_API +Define.RSS_thoisu));
         //startService(new Intent(getBaseContext(), ServiceNotification.class));
     }
 
@@ -76,15 +77,26 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.item1) {
-            Toast.makeText(getBaseContext(), R.string.newsSave, Toast.LENGTH_LONG).show();
-            getFragment(FragmentSave.newInstance());
-            getSupportActionBar().setTitle(R.string.newsSave);
-        }
-        else if(id==R.id.item2){
-            Toast.makeText(getBaseContext(), R.string.newsClick, Toast.LENGTH_LONG).show();
-            getFragment(FragmentHistory.newInstance());
-            getSupportActionBar().setTitle(R.string.newsClick);
+        switch (id){
+            case R.id.item1:{
+                Toast.makeText(getBaseContext(), R.string.newsSave, Toast.LENGTH_LONG).show();
+                getFragment(FragmentSave.newInstance());
+                getSupportActionBar().setTitle(R.string.newsSave);
+                break;
+            }
+            case R.id.item2:{
+                Toast.makeText(getBaseContext(), R.string.newsClick, Toast.LENGTH_LONG).show();
+                getFragment(FragmentHistory.newInstance());
+                getSupportActionBar().setTitle(R.string.newsClick);
+                break;
+            }
+            case R.id.Vietnamese:{
+                changeLanguage("vi");
+                break;
+            }
+            case R.id.English:{
+                changeLanguage("nv-rUS");
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -192,11 +204,6 @@ public class MainActivity extends AppCompatActivity
                 getFragment(FragmentItems.newInstance(urlGetData));
                 toolbar.setTitle(R.string.menu18);
                 break;
-            }case R.id.menu19:{
-
-                getFragment(FragmentHotVideos.newInstance());
-                toolbar.setTitle(R.string.menu19);
-                break;
             }
         }
 
@@ -229,5 +236,15 @@ public class MainActivity extends AppCompatActivity
         Intent intent= new Intent(getBaseContext(), ShowDetail.class);
         intent.putExtra("link", link);
         startActivity(intent);
+        overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
+    }
+    public void changeLanguage(String language){
+        Locale locale= new Locale(language);
+        Configuration configuration= new Configuration();
+        configuration.locale= locale;
+        getBaseContext().getResources().updateConfiguration(
+                configuration, getBaseContext().getResources().getDisplayMetrics()
+        );
+        startActivity(new Intent(MainActivity.this, MainActivity.class));
     }
 }

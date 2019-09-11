@@ -2,29 +2,31 @@ package com.example.newspaper.Activity.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.newspaper.Activity.Model.Detail;
 import com.example.newspaper.R;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 // adapter phần thông tin của bài viết
 public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.ViewDetailHoder> {
     private Context context;
     private ArrayList<Detail> list;
     private LayoutInflater inflater;
-    ScaleGestureDetector scaleGestureDetector;
-    public ItemsDetailAdapter(Context context, ArrayList<Detail> list) {
+    private float sizeText;
+    public ItemsDetailAdapter(Context context, ArrayList<Detail> list, float sizeText) {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
+        this.sizeText= sizeText;
     }
 
     @NonNull
@@ -40,6 +42,7 @@ public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.
         if (detail.getBl()==true){
             holder.layoutBottom.setVisibility(View.GONE);
             holder.tvDetail.setText(detail.getText());
+            holder.tvDetail.setTextSize(sizeText);
         }
         else {
             holder.layoutTop.setVisibility(View.GONE);
@@ -50,31 +53,8 @@ public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.
                     .error(R.drawable.ic_menu_gallery)
                     .into(holder.imageDetail);
         }
-        scaleGestureDetector= new ScaleGestureDetector(context, new Zoom(holder));
-        holder.tvDetail.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                scaleGestureDetector.onTouchEvent(motionEvent);
-                return true;
-            }
-        });
     }
 
-    class Zoom extends ScaleGestureDetector.SimpleOnScaleGestureListener{
-        ViewDetailHoder hoder;
-        Float scale=1.0F;
-        public Zoom(ViewDetailHoder hoder) {
-            this.hoder = hoder;
-        }
-
-        @Override
-        public boolean onScale(ScaleGestureDetector detector) {
-            scale*=detector.getScaleFactor();
-            hoder.tvDetail.setScaleX(scale);
-            hoder.tvDetail.setScaleY(scale);
-            return super.onScale(detector);
-        }
-    }
     @Override
     public int getItemCount() {
         return list.size();
@@ -93,22 +73,7 @@ public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.
             layoutTop= itemView.findViewById(R.id.layout_top);
             layoutBottom= itemView.findViewById(R.id.layout_bottom);
 
-            //scaleGestureDetector= new ScaleGestureDetector(context, new Zoom());
         }
-
-        /*class Zoom extends ScaleGestureDetector.SimpleOnScaleGestureListener{
-            Float scale=1.0F;
-            @Override
-            public boolean onScale(ScaleGestureDetector detector) {
-                scale*=detector.getScaleFactor();
-                tvDetail.setScaleX(scale);
-                tvDetail.setScaleY(scale);
-                layoutTop.setScaleX(scale);
-                layoutTop.setScaleY(scale);
-
-                return super.onScale(detector);
-            }
-        }*/
     }
 
 }

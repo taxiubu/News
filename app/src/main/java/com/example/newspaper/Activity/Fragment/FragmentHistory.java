@@ -67,6 +67,7 @@ public class FragmentHistory extends Fragment {
                             Intent intentClick= new Intent(getContext(), ShowDetail.class);
                             intentClick.putExtra("link", link);
                             startActivity(intentClick);
+
                         }
                         else {
                             sqlClickHistory.deleteItemClick(title);

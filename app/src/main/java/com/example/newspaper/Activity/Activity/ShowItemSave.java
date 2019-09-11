@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,7 +29,10 @@ public class ShowItemSave extends AppCompatActivity {
     ImageView btBack;
     String title, des, pubDate;
     List<Detail> details;
+    ImageView btZoomOutOff, btZoomInOff;
     PublicMethod publicMethod= new PublicMethod();
+    Float sizeText= 15F;
+    ItemsDetailAdapter detailAdapter;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -38,6 +42,10 @@ public class ShowItemSave extends AppCompatActivity {
         tvTitleItemSave= findViewById(R.id.tvTitleItemSaveShow);
         tvDesItemSave= findViewById(R.id.tvDesItemSaveShow);
         tvPubDateItemSave= findViewById(R.id.tvPubDateItemSaveShow);
+        btZoomInOff= findViewById(R.id.btZoomInOffline);
+        btZoomOutOff= findViewById(R.id.btZoomOutOffline);
+
+        //btBack
         btBack= findViewById(R.id.btBackOffline);
         btBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +53,7 @@ public class ShowItemSave extends AppCompatActivity {
                 finish();
             }
         });
+
         //setLayoutManager
         rcvItemSaveDetail= findViewById(R.id.rcvItemSaveDetail);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext(), RecyclerView.VERTICAL, false);
@@ -56,16 +65,7 @@ public class ShowItemSave extends AppCompatActivity {
         Document document= Jsoup.parse(html);
         if(document!=null){
             Element article= document.select("article").first();
-            Element last= article.selectFirst("p");
-            String className= last.className();
-            if(className.equals("Normal")){
-                last= article.selectFirst("p").lastElementSibling();
-            }
-            else {
-                last= article.select("p.author").first();
-            }
-            Elements lineDetail= last.siblingElements();
-
+            Elements lineDetail= article.select("p, table, div#article_content");
             for (Element element: lineDetail){
 
                 String text= element.html();
@@ -83,8 +83,6 @@ public class ShowItemSave extends AppCompatActivity {
                 }
             }
 
-            details.add(new Detail(last.text(), "", true));
-
             //setText tiêu đề
             title= document.selectFirst("h1").text();
             des= document.selectFirst("p").text();
@@ -95,7 +93,35 @@ public class ShowItemSave extends AppCompatActivity {
         }
 
         //setAdapter
-        ItemsDetailAdapter detailAdapter= new ItemsDetailAdapter(getBaseContext(), (ArrayList<Detail>) details);
+        detailAdapter= new ItemsDetailAdapter(getBaseContext(), (ArrayList<Detail>) details, sizeText);
         rcvItemSaveDetail.setAdapter(detailAdapter);
+
+        //btZoom
+        btZoomOutOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sizeText>9){
+                    sizeText-=2;
+                    Toast.makeText(getBaseContext(), R.string.zoomOut, Toast.LENGTH_LONG).show();
+                }
+                else
+                    Toast.makeText(getBaseContext(), "Min", Toast.LENGTH_LONG).show();
+                detailAdapter= new ItemsDetailAdapter(getBaseContext(), (ArrayList<Detail>) details, sizeText);
+                rcvItemSaveDetail.setAdapter(detailAdapter);
+            }
+        });
+        btZoomInOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(sizeText<=25){
+                    sizeText+=2;
+                    Toast.makeText(getBaseContext(), R.string.zoomIn, Toast.LENGTH_LONG).show();
+                }
+                else
+                    Toast.makeText(getBaseContext(), "Max", Toast.LENGTH_LONG).show();
+                detailAdapter= new ItemsDetailAdapter(getBaseContext(), (ArrayList<Detail>) details, sizeText);
+                rcvItemSaveDetail.setAdapter(detailAdapter);
+            }
+        });
     }
 }

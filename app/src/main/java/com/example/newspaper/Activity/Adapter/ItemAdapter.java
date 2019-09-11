@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -78,6 +80,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHoder> {
                 }
             });
         }
+
     }
 
     @Override
@@ -101,6 +104,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHoder> {
             tvDesItemLarge= itemView.findViewById(R.id.tvDescriptionLarge);
             imageItemLarge= itemView.findViewById(R.id.imageItemLarge);
             clickItemLarge= itemView.findViewById(R.id.layout_item_large);
+
+            //set Animation
+            Animation animation= AnimationUtils.loadAnimation(mContext, R.anim.scale_list);
+            itemView.startAnimation(animation);
         }
     }
 

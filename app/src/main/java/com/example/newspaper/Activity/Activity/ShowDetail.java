@@ -5,11 +5,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.newspaper.Activity.Adapter.ItemsDetailAdapter;
 import com.example.newspaper.Activity.Adapter.RelatedItemAdapter;
 import com.example.newspaper.Activity.Define.PublicMethod;
@@ -20,15 +23,19 @@ import com.example.newspaper.Activity.Model.ItemSave;
 import com.example.newspaper.Activity.SQL.SQLClickHistory;
 import com.example.newspaper.Activity.SQL.SQLItemSave;
 import com.example.newspaper.R;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShowDetail extends AppCompatActivity {
+    Float textSize=15F;
     ImageView btBack;
+    ScrollView layoutDetail;
     TextView btSave;
     TextView tvShowTitle, tvPubDateShow, tvDesShow;
     RecyclerView recyclerViewDetail, recyclerViewRelatedItem;
@@ -38,6 +45,8 @@ public class ShowDetail extends AppCompatActivity {
     SQLItemSave itemSave;
     String documentItemSave;
     SQLClickHistory sqlClickHistory;
+    TextView tvXemNhieu;
+    ImageView btZoomOut, btZoomIn;
     PublicMethod publicMethod= new PublicMethod();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +57,22 @@ public class ShowDetail extends AppCompatActivity {
         tvShowTitle= findViewById(R.id.tvTitleShow);
         tvPubDateShow= findViewById(R.id.tvPubDateShow);
         tvDesShow= findViewById(R.id.tvDescriptionShow);
+        tvXemNhieu= findViewById(R.id.tvBaiVietLQ);
+        layoutDetail= findViewById(R.id.layoutDetail);
         btSave= findViewById(R.id.btSave);
+        btZoomIn= findViewById(R.id.btZoomIn);
+        btZoomOut= findViewById(R.id.btZoomOut);
 
+        //setBack
         btBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+                overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
             }
         });
+
+        //checkInternet
         if(publicMethod.checkConnectInternet(getBaseContext())==false)
             Toast.makeText(getBaseContext(), R.string.NoInternet, Toast.LENGTH_LONG).show();
 
@@ -91,16 +108,7 @@ public class ShowDetail extends AppCompatActivity {
                     pubDateDetail= sidebar1.selectFirst("span").text();
 
                     Element article= sidebar1.select("article").first();
-                    Element last= article.selectFirst("p");
-                    String className= last.className();
-                    if(className.equals("Normal")){
-                        last= article.selectFirst("p").lastElementSibling();
-                    }
-                    else {
-                        last= article.select("p.author").first();
-                    }
-                    Elements lineDetail= last.siblingElements();
-
+                    Elements lineDetail= article.select("p, table, div#article_content");
                     for (Element element: lineDetail){
 
                         String text= element.html();
@@ -117,7 +125,6 @@ public class ShowDetail extends AppCompatActivity {
                             details.add(new Detail(element.text(), "", bl));
                         }
                     }
-                    details.add(new Detail(last.text(), "", true));
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -126,7 +133,7 @@ public class ShowDetail extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Detail> strings) {
+        protected void onPostExecute(final ArrayList<Detail> strings) {
             super.onPostExecute(strings);
             // set tiêu đề
             tvShowTitle.setText(titleDetail);
@@ -137,7 +144,7 @@ public class ShowDetail extends AppCompatActivity {
             btSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(getBaseContext(), "Save", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), R.string.save, Toast.LENGTH_LONG).show();
                     itemSave= new SQLItemSave(getBaseContext());
                     List<ItemSave> itemSaveList;
                     itemSaveList= itemSave.getAllItemSave();
@@ -146,9 +153,40 @@ public class ShowDetail extends AppCompatActivity {
                     }
                 }
             });
+            tvXemNhieu.setText("Xem Nhiều"); //setText
+            //btZoom
+            btZoomIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (textSize<=25F){
+                        textSize+=2;
+                        Toast.makeText(getBaseContext(), R.string.zoomIn, Toast.LENGTH_LONG).show();
+                    }
 
+                    else
+                        Toast.makeText(getBaseContext(), "Max", Toast.LENGTH_LONG).show();
+                    adapter= new ItemsDetailAdapter(getBaseContext(), strings, textSize);
+                    recyclerViewDetail.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+            btZoomOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(textSize>9){
+                        textSize-=2;
+                        Toast.makeText(getBaseContext(), R.string.zoomOut, Toast.LENGTH_LONG).show();
+                    }
+
+                    else
+                        Toast.makeText(getBaseContext(), "Min", Toast.LENGTH_LONG).show();
+                    adapter= new ItemsDetailAdapter(getBaseContext(), strings, textSize);
+                    recyclerViewDetail.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            });
             //setAdapter cho rcvDetail
-            adapter= new ItemsDetailAdapter(getBaseContext(), strings);
+            adapter= new ItemsDetailAdapter(getBaseContext(), strings, textSize);
             recyclerViewDetail.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }

@@ -12,4 +12,19 @@
         android:orderInCategory="100"
         android:title="@string/newsClick"
         app:showAsAction="never" />
+
+    <item
+        android:orderInCategory="2"
+        android:title="@string/Language">
+        <menu>
+            <item
+                android:icon="@drawable/vietnam"
+                android:id="@+id/Vietnamese"
+                android:title="@string/VietNamese"/>
+            <item
+                android:icon="@drawable/usato"
+                android:id="@+id/English"
+                android:title="@string/English"/>
+        </menu>
+    </item>
 </menu>

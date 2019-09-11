@@ -39,6 +39,4 @@
         android:id="@+id/menu17"/>
     <item android:title="@string/menu18"
         android:id="@+id/menu18"/>
-    <item android:title="@string/menu19"
-        android:id="@+id/menu19"/>
 </menu>

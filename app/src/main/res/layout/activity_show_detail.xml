@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,18 +7,18 @@
     tools:context=".Activity.Activity.ShowDetail">
 
     <RelativeLayout
-        android:id="@+id/llToolbar"
+        android:id="@+id/Toolbar"
         android:background="@color/colorAccent"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp">
+        android:layout_height="@dimen/_45sdp">
 
         <TextView
             android:id="@+id/btSave"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:textColor="@color/colorWhite"
-            android:text="Lưu Lại"
+            android:text="@string/save"
             android:layout_marginRight="@dimen/_5sdp"
             android:textSize="@dimen/_15sdp"
             android:layout_width="wrap_content"
@@ -31,7 +31,33 @@
             android:layout_height="@dimen/_30sdp" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/taskBar"
+        android:background="@color/colorAccent"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp">
+
+        <ImageView
+            android:id="@+id/btZoomOut"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_zoom_out_white_24dp"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp" />
+
+        <ImageView
+            android:id="@+id/btZoomIn"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_zoom_in_white_24dp"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp" />
+    </RelativeLayout>
+
     <ScrollView
+        android:id="@+id/layoutDetail"
+        android:layout_above="@+id/taskBar"
+        android:layout_below="@+id/Toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
@@ -82,7 +108,6 @@
                 android:textStyle="bold"
                 android:textSize="@dimen/_15sdp"
                 android:layout_below="@+id/rcvDetail"
-                android:text="Xem nhiều: "
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -97,5 +122,4 @@
         </RelativeLayout>
     </ScrollView>
 
-
-</LinearLayout>
+</RelativeLayout>
