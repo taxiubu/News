@@ -14,10 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.newspaper.Activity.Interface.ItemClick;
+import com.example.newspaper.Activity.Interface.IOnClickItem;
 import com.example.newspaper.Activity.Model.Item;
 import com.example.newspaper.Activity.Model.RootObject;
-import com.example.newspaper.Activity.SQL.SQLItemSave;
 import com.example.newspaper.R;
 import com.squareup.picasso.Picasso;
 // adapter bài viết của từng mục
@@ -25,10 +24,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHoder> {
     private RootObject rssObject;
     private Context mContext;
     private LayoutInflater inflater;
-    ItemClick itemClick;
+    IOnClickItem IOnClickItem;
 
-    public void setItemClick(ItemClick itemClick) {
-        this.itemClick = itemClick;
+    public void setIOnClickItem(IOnClickItem IOnClickItem) {
+        this.IOnClickItem = IOnClickItem;
     }
 
     public ItemAdapter(RootObject rssObject, Context mContext) {
@@ -61,7 +60,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHoder> {
             holder.clickItemLarge.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemClick.onClick(item.title, item.link);
+                    IOnClickItem.onClick(item.title, item.link);
                 }
             });
         }
@@ -76,7 +75,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHoder> {
             holder.clickItemSmall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    itemClick.onClick(item.title, item.link);
+                    IOnClickItem.onClick(item.title, item.link);
                 }
             });
         }

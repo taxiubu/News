@@ -43,4 +43,9 @@ public class PublicMethod {
             connected= true;
         return connected;
     }
+    public String dataTitle(String s){
+        int indexFirst= s.indexOf("title=");
+        int indexLast= s.indexOf("\"", indexFirst+10);
+        return s.substring(indexFirst+7, indexLast);
+    }
 }

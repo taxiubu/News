@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,25 +15,31 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+
+import com.example.newspaper.Activity.Adapter.SliderAdapter;
 import com.example.newspaper.Activity.Define.Define;
 import com.example.newspaper.Activity.Define.PublicMethod;
 import com.example.newspaper.Activity.Fragment.FragmentHistory;
 import com.example.newspaper.Activity.Fragment.FragmentItems;
 import com.example.newspaper.Activity.Fragment.FragmentSave;
-import com.example.newspaper.Activity.Interface.ItemClick;
+import com.example.newspaper.Activity.Interface.IOnClickItem;
 import com.example.newspaper.Activity.Model.ItemRelated;
 import com.example.newspaper.Activity.SQL.SQLClickHistory;
 import com.example.newspaper.R;
 import com.google.android.material.navigation.NavigationView;
+import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ItemClick {
+        implements NavigationView.OnNavigationItemSelectedListener, IOnClickItem {
     private static final String TAG = "MainActivity";
     SQLClickHistory sqlClickHistory;
     PublicMethod publicMethod;
+    SliderView imageToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +57,11 @@ public class MainActivity extends AppCompatActivity
 
         getFragment(FragmentItems.newInstance(Define.RSS_to_Json_API +Define.RSS_thoisu));
         //startService(new Intent(getBaseContext(), ServiceNotification.class));
+        imageToolbar= findViewById(R.id.imageToolbar);
+        SliderAdapter sliderAdapter= new SliderAdapter(getBaseContext());
+        imageToolbar.setSliderAdapter(sliderAdapter);
+        imageToolbar.setIndicatorAnimation(IndicatorAnimations.SLIDE);
+        imageToolbar.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
     }
 
     @Override

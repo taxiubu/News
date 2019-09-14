@@ -3,6 +3,7 @@ package com.example.newspaper.Activity.Model;
 public class ItemRelated {
     private String title;
     private String link;
+    private String image;
 
     public String getTitle() {
         return title;

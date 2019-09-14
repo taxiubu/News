@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.newspaper.Activity.Activity.ShowDetail;
 import com.example.newspaper.Activity.Adapter.ClickHistoryAdapter;
-import com.example.newspaper.Activity.Interface.ItemClick;
+import com.example.newspaper.Activity.Interface.IOnClickItem;
 import com.example.newspaper.Activity.Model.ItemRelated;
 import com.example.newspaper.Activity.SQL.SQLClickHistory;
 import com.example.newspaper.R;
@@ -28,6 +28,7 @@ public class FragmentHistory extends Fragment {
     SQLClickHistory sqlClickHistory;
     TextView btRemoveAll;
     List<ItemRelated> list, listRemove, listRemoveAll;
+    ClickHistoryAdapter adapter;
     public static FragmentHistory newInstance() {
 
         Bundle args = new Bundle();
@@ -51,9 +52,9 @@ public class FragmentHistory extends Fragment {
         list= sqlClickHistory.getAllItem();
 
         //Dùng Adapter
-        ClickHistoryAdapter adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) list);
+        adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) list);
         rcvItemHistory.setAdapter(adapter);
-        adapter.setItemClick(new ItemClick() {
+        adapter.setIOnClickItem(new IOnClickItem() {
             @Override
             public void onClick(final String title, final String link) {
                 PopupMenu popupMenu= new PopupMenu(getContext(), view);
@@ -71,9 +72,10 @@ public class FragmentHistory extends Fragment {
                         }
                         else {
                             sqlClickHistory.deleteItemClick(title);
-                            listRemove= sqlClickHistory.getAllItem();
-                            ClickHistoryAdapter adapterRemove= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) listRemove);
-                            rcvItemHistory.setAdapter(adapterRemove);
+                            list= sqlClickHistory.getAllItem();
+                            adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) list);
+                            rcvItemHistory.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
                             Toast.makeText(getContext(), R.string.remove, Toast.LENGTH_LONG).show();
                         }
                         return false;
@@ -88,9 +90,10 @@ public class FragmentHistory extends Fragment {
             @Override
             public void onClick(View view) {
                 sqlClickHistory.deleteAll();
-                listRemoveAll= sqlClickHistory.getAllItem();
-                ClickHistoryAdapter adapterRemoveAll= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) listRemoveAll);
-                rcvItemHistory.setAdapter(adapterRemoveAll);
+                list= sqlClickHistory.getAllItem();
+                adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) list);
+                rcvItemHistory.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), R.string.removeAll, Toast.LENGTH_LONG).show();
             }
         });

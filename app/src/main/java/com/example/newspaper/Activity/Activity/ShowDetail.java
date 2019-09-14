@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.newspaper.Activity.Adapter.ItemsDetailAdapter;
 import com.example.newspaper.Activity.Adapter.RelatedItemAdapter;
 import com.example.newspaper.Activity.Define.PublicMethod;
-import com.example.newspaper.Activity.Interface.ItemClick;
+import com.example.newspaper.Activity.Interface.IOnClickItem;
 import com.example.newspaper.Activity.Model.Detail;
 import com.example.newspaper.Activity.Model.ItemRelated;
 import com.example.newspaper.Activity.Model.ItemSave;
@@ -108,7 +108,7 @@ public class ShowDetail extends AppCompatActivity {
                     pubDateDetail= sidebar1.selectFirst("span").text();
 
                     Element article= sidebar1.select("article").first();
-                    Elements lineDetail= article.select("p, table, div#article_content");
+                    Elements lineDetail= article.select("p.Normal, table, div#article_content, p.MsNormal");
                     for (Element element: lineDetail){
 
                         String text= element.html();
@@ -199,7 +199,7 @@ public class ShowDetail extends AppCompatActivity {
         @Override
         protected ArrayList<ItemRelated> doInBackground(String... strings) {
             Document document = null;
-            ArrayList<ItemRelated> arrayList = new ArrayList<>();
+            ArrayList<ItemRelated> arrayListRelated = new ArrayList<>();
             try {
                 document = Jsoup.connect(strings[0]).get();
                 if (document != null) {
@@ -207,12 +207,11 @@ public class ShowDetail extends AppCompatActivity {
                     Elements li = container.getElementsByTag("li");
 
                     for (Element element : li) {
+                        Element h4= element.selectFirst("h4");
                         Element tag_a = element.selectFirst("a");
-                        String titleLi = tag_a.attr("title");
+                        String titleLi = publicMethod.dataTitle(h4.html());
                         String linkLi = tag_a.attr("href");
-                        if (titleLi != null && linkLi != null) {
-                            arrayList.add(new ItemRelated(titleLi, linkLi));
-                        }
+                        arrayListRelated.add(new ItemRelated(titleLi, linkLi));
 
                     }
 
@@ -220,7 +219,7 @@ public class ShowDetail extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return arrayList;
+            return arrayListRelated;
         }
 
         @Override
@@ -230,7 +229,7 @@ public class ShowDetail extends AppCompatActivity {
             recyclerViewRelatedItem.setAdapter(relatedItemAdapter);
 
             //click vào bài viết
-            relatedItemAdapter.setItemClick(new ItemClick() {
+            relatedItemAdapter.setIOnClickItem(new IOnClickItem() {
                 @Override
                 public void onClick(String title, String link) {
                     // insert to SQLClickHistory

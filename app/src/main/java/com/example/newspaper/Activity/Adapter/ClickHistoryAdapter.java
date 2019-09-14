@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.newspaper.Activity.Interface.ItemClick;
+import com.example.newspaper.Activity.Interface.IOnClickItem;
 import com.example.newspaper.Activity.Model.ItemRelated;
 import com.example.newspaper.R;
 import java.util.ArrayList;
@@ -17,10 +17,10 @@ public class ClickHistoryAdapter extends RecyclerView.Adapter<ClickHistoryAdapte
     private Context mcontext;
     private ArrayList<ItemRelated> list;
     private LayoutInflater inflater;
-    ItemClick itemClick;
+    IOnClickItem IOnClickItem;
 
-    public void setItemClick(ItemClick itemClick) {
-        this.itemClick = itemClick;
+    public void setIOnClickItem(IOnClickItem IOnClickItem) {
+        this.IOnClickItem = IOnClickItem;
     }
 
     public ClickHistoryAdapter(Context mcontext, ArrayList<ItemRelated> list) {
@@ -43,7 +43,7 @@ public class ClickHistoryAdapter extends RecyclerView.Adapter<ClickHistoryAdapte
         holder.tvTitleItemCLick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClick.onClick(itemRelated.getTitle(), itemRelated.getLink());
+                IOnClickItem.onClick(itemRelated.getTitle(), itemRelated.getLink());
             }
         });
     }

@@ -18,13 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.newspaper.Activity.Adapter.ItemAdapter;
 import com.example.newspaper.Activity.Common.HTTPData;
 import com.example.newspaper.Activity.Define.PublicMethod;
-import com.example.newspaper.Activity.Interface.ItemClick;
+import com.example.newspaper.Activity.Interface.IOnClickItem;
 import com.example.newspaper.Activity.Model.RootObject;
 import com.example.newspaper.R;
 import com.google.gson.Gson;
 
 public class FragmentItems extends Fragment {
-    private ItemClick listener;
+    private IOnClickItem listener;
     RootObject rssObject;
     RecyclerView recyclerView;
     PublicMethod publicMethod;
@@ -77,7 +77,7 @@ public class FragmentItems extends Fragment {
                 rssObject= new Gson().fromJson(s, RootObject.class);
                 ItemAdapter itemAdapter= new ItemAdapter(rssObject, getContext());
                 recyclerView.setAdapter(itemAdapter);
-                itemAdapter.setItemClick(new ItemClick() {
+                itemAdapter.setIOnClickItem(new IOnClickItem() {
                     @Override
                     public void onClick(String title, String link) {
                         listener.onClick(title, link);
@@ -94,8 +94,8 @@ public class FragmentItems extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ItemClick) {
-            listener = (ItemClick) context;
+        if (context instanceof IOnClickItem) {
+            listener = (IOnClickItem) context;
         } else {
             throw new RuntimeException(context.toString() + "must implement");
         }

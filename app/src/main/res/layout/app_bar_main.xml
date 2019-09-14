@@ -22,13 +22,23 @@
             app:toolbarId="@+id/toolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_160sdp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/backgroundbar"
-            app:layout_collapseMode="parallax"/>
+            <com.smarteist.autoimageslider.SliderView
+                android:id="@+id/imageToolbar"
+                app:sliderAnimationDuration="1000"
+                app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderIndicatorAnimationDuration="1000"
+                app:sliderIndicatorGravity="center_horizontal|bottom"
+                app:sliderIndicatorOrientation="horizontal"
+                app:sliderIndicatorPadding="@dimen/_2sdp"
+                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorSelectedColor="@color/colorWhite"
+                app:sliderIndicatorUnselectedColor="@color/colorWhiteLight"
+                app:sliderScrollTimeInSec="5"
+                app:sliderStartAutoCycle="true"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp">
+
+            </com.smarteist.autoimageslider.SliderView>
 
             <androidx.appcompat.widget.Toolbar
                 app:layout_collapseMode="pin"
@@ -38,8 +48,6 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:layout_scrollFlags="scroll|enterAlways"/>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/layout_main" />

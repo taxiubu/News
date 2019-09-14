@@ -1,5 +1,5 @@
 package com.example.newspaper.Activity.Interface;
 
-public interface ItemSaveClick {
+public interface IOnClickSaveItem {
     void onClick(String title, String document);
 }

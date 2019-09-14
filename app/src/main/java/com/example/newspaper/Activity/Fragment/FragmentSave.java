@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.newspaper.Activity.Activity.ShowItemSave;
 import com.example.newspaper.Activity.Adapter.ItemSaveAdapter;
-import com.example.newspaper.Activity.Interface.ItemSaveClick;
+import com.example.newspaper.Activity.Interface.IOnClickSaveItem;
 import com.example.newspaper.Activity.Model.ItemSave;
 import com.example.newspaper.Activity.SQL.SQLItemSave;
 import com.example.newspaper.R;
@@ -52,7 +52,7 @@ public class FragmentSave extends Fragment {
         saveList= sqlItemSave.getAllItemSave();
         ItemSaveAdapter itemSaveAdapter= new ItemSaveAdapter(getContext(), (ArrayList<ItemSave>) saveList);
         rcvItemSave.setAdapter(itemSaveAdapter);
-        itemSaveAdapter.setItemSaveClick(new ItemSaveClick() {
+        itemSaveAdapter.setIOnClickSaveItem(new IOnClickSaveItem() {
             @Override
             public void onClick(final String title, final String document) {
                 PopupMenu popupMenu= new PopupMenu(getContext(), view);

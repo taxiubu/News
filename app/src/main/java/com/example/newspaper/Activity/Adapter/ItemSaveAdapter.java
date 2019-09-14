@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.newspaper.Activity.Interface.ItemSaveClick;
+import com.example.newspaper.Activity.Interface.IOnClickSaveItem;
 import com.example.newspaper.Activity.Model.ItemSave;
 import com.example.newspaper.R;
 import java.util.ArrayList;
@@ -16,10 +16,10 @@ public class ItemSaveAdapter extends RecyclerView.Adapter<ItemSaveAdapter.ViewHo
     private Context context;
     private ArrayList<ItemSave> list;
     private LayoutInflater inflater;
-    ItemSaveClick itemSaveClick;
+    IOnClickSaveItem IOnClickSaveItem;
 
-    public void setItemSaveClick(ItemSaveClick itemSaveClick) {
-        this.itemSaveClick = itemSaveClick;
+    public void setIOnClickSaveItem(IOnClickSaveItem IOnClickSaveItem) {
+        this.IOnClickSaveItem = IOnClickSaveItem;
     }
 
     public ItemSaveAdapter(Context context, ArrayList<ItemSave> list) {
@@ -42,7 +42,7 @@ public class ItemSaveAdapter extends RecyclerView.Adapter<ItemSaveAdapter.ViewHo
         holder.tvTitleItems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemSaveClick.onClick(itemSave.getTitle(), itemSave.getDocument());
+                IOnClickSaveItem.onClick(itemSave.getTitle(), itemSave.getDocument());
             }
         });
     }
