@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.newspaper.Activity.Define.Define;
 import com.example.newspaper.R;
 import com.smarteist.autoimageslider.SliderViewAdapter;
-import com.squareup.picasso.Picasso;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterVH> {
     private Context context;
@@ -28,7 +28,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
     public void onBindViewHolder(SliderAdapterVH viewHolder, int position) {
         switch (position){
             case 0:{
-                Picasso.with(context)
+                Glide.with(context)
                         .load(Define.BACKGROUND_01)
                         .placeholder(R.drawable.ic_menu_gallery)
                         .error(R.drawable.ic_menu_gallery)
@@ -36,7 +36,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 break;
             }
             case 1:{
-                Picasso.with(context)
+                Glide.with(context)
                         .load(Define.BACKGROUND_02)
                         .placeholder(R.drawable.ic_menu_gallery)
                         .error(R.drawable.ic_menu_gallery)
@@ -44,7 +44,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 break;
             }
             case 2:{
-                Picasso.with(context)
+                Glide.with(context)
                         .load(Define.BACKGROUND_03)
                         .placeholder(R.drawable.ic_menu_gallery)
                         .error(R.drawable.ic_menu_gallery)
@@ -52,7 +52,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 break;
             }
             case 3:{
-                Picasso.with(context)
+                Glide.with(context)
                         .load(Define.BACKGROUND_04)
                         .placeholder(R.drawable.ic_menu_gallery)
                         .error(R.drawable.ic_menu_gallery)
@@ -60,7 +60,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 break;
             }
             case 4:{
-                Picasso.with(context)
+                Glide.with(context)
                         .load(Define.BACKGROUND_05)
                         .placeholder(R.drawable.ic_menu_gallery)
                         .error(R.drawable.ic_menu_gallery)
@@ -68,7 +68,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapter
                 break;
             }
             default:{
-                Picasso.with(context)
+                Glide.with(context)
                         .load(Define.BACKGROUND_06)
                         .placeholder(R.drawable.ic_menu_gallery)
                         .error(R.drawable.ic_menu_gallery)

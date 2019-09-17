@@ -14,11 +14,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.newspaper.Activity.Interface.IOnClickItem;
 import com.example.newspaper.Activity.Model.Item;
 import com.example.newspaper.Activity.Model.RootObject;
 import com.example.newspaper.R;
-import com.squareup.picasso.Picasso;
+
 // adapter bài viết của từng mục
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHoder> {
     private RootObject rssObject;
@@ -51,7 +52,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHoder> {
         if (position==0){
             holder.tvTitleItemLarge.setText(item.getTitle());
             holder.tvDesItemLarge.setText(splitString(item.getDescription()));
-            Picasso.with(mContext)
+            Glide.with(mContext)
                     .load(item.getThumbnail())
                     .placeholder(R.drawable.ic_menu_gallery)
                     .error(R.drawable.ic_menu_gallery)
@@ -66,7 +67,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHoder> {
         }
         else {
             holder.tvTitleItemSmall.setText(item.getTitle());
-            Picasso.with(mContext)
+            Glide.with(mContext)
                     .load(item.getThumbnail())
                     .placeholder(R.drawable.ic_menu_gallery)
                     .error(R.drawable.ic_menu_gallery)

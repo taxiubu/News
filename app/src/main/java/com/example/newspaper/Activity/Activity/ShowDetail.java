@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,7 @@ import com.example.newspaper.Activity.Model.ItemSave;
 import com.example.newspaper.Activity.SQL.SQLClickHistory;
 import com.example.newspaper.Activity.SQL.SQLItemSave;
 import com.example.newspaper.R;
+import com.github.ybq.android.spinkit.SpinKitView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -48,11 +50,18 @@ public class ShowDetail extends AppCompatActivity {
     TextView tvXemNhieu;
     ImageView btZoomOut, btZoomIn;
     PublicMethod publicMethod= new PublicMethod();
+    SpinKitView loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_detail);
-        getSupportActionBar().hide();
+        Toolbar toolbarActDetail = findViewById(R.id.toolbarActDetail);
+        setSupportActionBar(toolbarActDetail);
+        //getSupportActionBar().hide();
+        // loading
+        loading= findViewById(R.id.loading);
+        loading.setVisibility(View.VISIBLE);
+
         btBack= findViewById(R.id.btBack);
         tvShowTitle= findViewById(R.id.tvTitleShow);
         tvPubDateShow= findViewById(R.id.tvPubDateShow);
@@ -72,22 +81,27 @@ public class ShowDetail extends AppCompatActivity {
             }
         });
 
-        //checkInternet
-        if(publicMethod.checkConnectInternet(getBaseContext())==false)
-            Toast.makeText(getBaseContext(), R.string.NoInternet, Toast.LENGTH_LONG).show();
 
         //rcv phần thông tin
         String link= getIntent().getStringExtra("link");
         recyclerViewDetail= findViewById(R.id.rcvDetail);
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getBaseContext(), RecyclerView.VERTICAL, false);
         recyclerViewDetail.setLayoutManager(layoutManager1);
-        new LoadDetail().execute(link);
 
         //rcv phần bài viết liên quan
         recyclerViewRelatedItem= findViewById(R.id.rcvRelatedItem);
         RecyclerView.LayoutManager layoutManager2= new LinearLayoutManager(getBaseContext(), RecyclerView.VERTICAL, false);
         recyclerViewRelatedItem.setLayoutManager(layoutManager2);
-        new LoadRelatedItem().execute(link);
+
+        //checkInternet
+        if(publicMethod.checkConnectInternet(getBaseContext())==false){
+            Toast.makeText(getBaseContext(), R.string.NoInternet, Toast.LENGTH_LONG).show();
+            tvXemNhieu.setText("");
+        }
+        else {
+            new LoadDetail().execute(link);
+            new LoadRelatedItem().execute(link);
+        }
 
     }
 
@@ -101,31 +115,78 @@ public class ShowDetail extends AppCompatActivity {
                 document= Jsoup.connect(strings[0]).get();
                 if(document!=null){
                     Element container= document.select("section.container").first();
-                    Element sidebar1= container.select("section.sidebar_1").first();
-                    documentItemSave= sidebar1.html();
-                    titleDetail= sidebar1.selectFirst("h1").text();
-                    descriptionDetail= sidebar1.selectFirst("p").text();
-                    pubDateDetail= sidebar1.selectFirst("span").text();
+                    if(container!=null){
+                        Element sidebar1= container.select("section.sidebar_1").first();
+                        documentItemSave= sidebar1.html();
+                        titleDetail= sidebar1.selectFirst("h1").text();
+                        descriptionDetail= sidebar1.selectFirst("p").text();
+                        pubDateDetail= sidebar1.selectFirst("span").text();
 
-                    Element article= sidebar1.select("article").first();
-                    Elements lineDetail= article.select("p.Normal, table, div#article_content, p.MsNormal");
-                    for (Element element: lineDetail){
+                        Element article= sidebar1.select("article").first();
+                        Elements lineDetail= article.select("p.Normal, table, div#article_content, p.MsNormal");
+                        for (Element element: lineDetail){
+                            String imageLink= null;
+                            String textTitle= null;
+                            String text= element.html();
+                            Boolean bl= true;
+                            if(text.indexOf(".jpg")!=-1){
+                                bl= false;
+                                imageLink= publicMethod.dataLinkJPG(text);
+                                textTitle= element.select("p.Image").text();
 
-                        String text= element.html();
-                        Boolean bl= true;
-                        if(text.indexOf(".jpg")!=-1){
-                            String imageLink;
-                            String textTitle;
-                            bl= false;
-                            imageLink= publicMethod.dataLink(text);
-                            textTitle= element.select("p.Image").text();
+                            }
+                            else if(text.indexOf(".png")!=-1){
+                                bl= false;
+                                imageLink= publicMethod.dataLinkPNG(text);
+                                textTitle= element.select("p.Image").text();
+                            }
+                            else{
+                                textTitle= element.text();
+                            }
                             details.add(new Detail(textTitle, imageLink, bl));
                         }
-                        else{
-                            details.add(new Detail(element.text(), "", bl));
+                    }
+                    // fix null container
+                    else {
+                        container= document.select("section#wrapper_container").first();
+                        if(container!=null){
+                            titleDetail= container.select("div.block_title_detail").first().text();
+                            pubDateDetail= container.select("div.author").first().text().replace("&nbsp", "");
+                            descriptionDetail= container.selectFirst("h2").text();
+                            Elements lineDetail= container.select("p.Normal, p.MsNormal, div.thumb_detail_top, table");
+                            for(Element element:lineDetail){
+                                String text= element.html();
+                                Boolean bl= true;
+                                String imageLink=null;
+                                String textTitle=null;
+                                if(text.indexOf(".jpg")!=-1){
+                                    bl= false;
+                                    imageLink= publicMethod.dataLinkJPG(text);
+                                    textTitle= element.select("div.caption_thumb_detail_top").text();
+
+                                }
+                                else if(text.indexOf(".png")!=-1){
+                                    bl= false;
+                                    imageLink= publicMethod.dataLinkPNG(text);
+                                    textTitle= element.select("div.caption_thumb_detail_top").text();
+                                }
+                                else{
+                                    textTitle= element.text();
+                                }
+                                details.add(new Detail(textTitle, imageLink, bl));
+                            }
+                            documentItemSave= container.html();
+                        }
+                        else {
+                                //Element containFix= document.select("section.top_detail clearfix").first();
+                            titleDetail= document.select("h1").first().text();
+                            descriptionDetail= document.select("div.lead_detail").first().text();
+                            pubDateDetail= document.select("span.time").first().text();
+
                         }
                     }
                 }
+
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -135,6 +196,8 @@ public class ShowDetail extends AppCompatActivity {
         @Override
         protected void onPostExecute(final ArrayList<Detail> strings) {
             super.onPostExecute(strings);
+            if(strings!=null)
+                loading.setVisibility(View.GONE);
             // set tiêu đề
             tvShowTitle.setText(titleDetail);
             tvPubDateShow.setText(pubDateDetail);
@@ -153,7 +216,7 @@ public class ShowDetail extends AppCompatActivity {
                     }
                 }
             });
-            tvXemNhieu.setText("Xem Nhiều"); //setText
+            tvXemNhieu.setText(R.string.more); //setText
             //btZoom
             btZoomIn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -189,6 +252,7 @@ public class ShowDetail extends AppCompatActivity {
             adapter= new ItemsDetailAdapter(getBaseContext(), strings, textSize);
             recyclerViewDetail.setAdapter(adapter);
             adapter.notifyDataSetChanged();
+
         }
 
     }
@@ -204,14 +268,42 @@ public class ShowDetail extends AppCompatActivity {
                 document = Jsoup.connect(strings[0]).get();
                 if (document != null) {
                     Element container = document.select("section.container").first();
-                    Elements li = container.getElementsByTag("li");
+                    String titleLi= null;
+                    String linkLi = null;
+                    if(container!=null){
+                        Elements li = container.getElementsByTag("li");
+                        for (Element element : li) {
+                            Element h4= element.selectFirst("h4");
+                            Element tag_a = element.selectFirst("a");
+                            titleLi = publicMethod.dataTitle(h4.html());
+                            linkLi = tag_a.attr("href");
+                            //String linkLi = publicMethod.dataLinkJPG(h4.html());
+                            arrayListRelated.add(new ItemRelated(titleLi, linkLi));
 
-                    for (Element element : li) {
-                        Element h4= element.selectFirst("h4");
-                        Element tag_a = element.selectFirst("a");
-                        String titleLi = publicMethod.dataTitle(h4.html());
-                        String linkLi = tag_a.attr("href");
-                        arrayListRelated.add(new ItemRelated(titleLi, linkLi));
+                        }
+                    }
+                    // fix null container
+                    else {
+                        container= document.select("section#wrapper_container").first();
+                        if(container!=null){
+                            Element xemthem = container.select("div.list_xemthem_newver").first();
+                            Elements li= xemthem.getElementsByTag("li");
+                            for(Element element:li){
+                                Element tag_a = element.selectFirst("a");
+                                linkLi= tag_a.attr("href");
+                                titleLi= tag_a.text();
+                                arrayListRelated.add(new ItemRelated(titleLi, linkLi));
+                            }
+                        }
+                        else {
+                            Element xemthem= document.select("div.container_section clearfix").first();
+                            Elements li= xemthem.getElementsByTag("article");
+                            for(Element element:li){
+                                titleLi= element.selectFirst("a").attr("href");
+                                linkLi= element.selectFirst("a").attr("alt");
+                                arrayListRelated.add(new ItemRelated(titleLi, linkLi));
+                            }
+                        }
 
                     }
 
@@ -236,7 +328,11 @@ public class ShowDetail extends AppCompatActivity {
                     sqlClickHistory = new SQLClickHistory(getBaseContext());
                     List<ItemRelated> list;
                     list = sqlClickHistory.getAllItem();
-                    if (publicMethod.checkTitleItemClick(title, list) == false)
+                    if (publicMethod.checkTitleItemClick(title, list)){
+                        sqlClickHistory.deleteItemClick(title);
+                        sqlClickHistory.insertItem(title, link);
+                    }
+                    else
                         sqlClickHistory.insertItem(title, link);
 
                     // showDetail

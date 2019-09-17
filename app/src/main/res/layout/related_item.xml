@@ -27,6 +27,7 @@
                 android:layout_height="@dimen/_8sdp"
                 />
             <TextView
+                android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_15sdp"
                 android:layout_toRightOf="@+id/imageItemRelated"
                 android:id="@+id/tvTitleRelated"

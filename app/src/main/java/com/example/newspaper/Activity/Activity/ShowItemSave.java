@@ -74,7 +74,7 @@ public class ShowItemSave extends AppCompatActivity {
                     String imageLink;
                     String textTitle;
                     bl= false;
-                    imageLink= publicMethod.dataLink(text);
+                    imageLink= publicMethod.dataLinkJPG(text);
                     textTitle= element.select("p.Image").text();
                     details.add(new Detail(textTitle, imageLink, bl));
                 }

@@ -27,7 +27,7 @@ public class FragmentHistory extends Fragment {
     RecyclerView rcvItemHistory;
     SQLClickHistory sqlClickHistory;
     TextView btRemoveAll;
-    List<ItemRelated> list, listRemove, listRemoveAll;
+    List<ItemRelated> getList, listHistory;
     ClickHistoryAdapter adapter;
     public static FragmentHistory newInstance() {
 
@@ -49,10 +49,15 @@ public class FragmentHistory extends Fragment {
 
         // lấy list từ bảng SQLClickHistory
         sqlClickHistory= new SQLClickHistory(getContext());
-        list= sqlClickHistory.getAllItem();
+        getList= sqlClickHistory.getAllItem();
+        int size= getList.size();
+        listHistory= new ArrayList<>();
+        for(int i=size-1; i>=0; i--){
+            listHistory.add(getList.get(i));
+        }
 
         //Dùng Adapter
-        adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) list);
+        adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) listHistory);
         rcvItemHistory.setAdapter(adapter);
         adapter.setIOnClickItem(new IOnClickItem() {
             @Override
@@ -72,10 +77,11 @@ public class FragmentHistory extends Fragment {
                         }
                         else {
                             sqlClickHistory.deleteItemClick(title);
-                            list= sqlClickHistory.getAllItem();
-                            adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) list);
-                            rcvItemHistory.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
+                            //getList= sqlClickHistory.getAllItem();
+                            listHistory.remove(new ItemRelated(title, link));
+                            //adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) getList);
+                            //rcvItemHistory.setAdapter(adapter);
+                            //adapter.notifyDataSetChanged();
                             Toast.makeText(getContext(), R.string.remove, Toast.LENGTH_LONG).show();
                         }
                         return false;
@@ -90,8 +96,8 @@ public class FragmentHistory extends Fragment {
             @Override
             public void onClick(View view) {
                 sqlClickHistory.deleteAll();
-                list= sqlClickHistory.getAllItem();
-                adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) list);
+                getList= sqlClickHistory.getAllItem();
+                adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) getList);
                 rcvItemHistory.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), R.string.removeAll, Toast.LENGTH_LONG).show();

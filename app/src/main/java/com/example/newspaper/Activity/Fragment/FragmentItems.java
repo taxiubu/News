@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +26,7 @@ public class FragmentItems extends Fragment {
     private IOnClickItem listener;
     RootObject rssObject;
     RecyclerView recyclerView;
-    PublicMethod publicMethod;
+    PublicMethod publicMethod= new PublicMethod();
     public static FragmentItems newInstance(String urlGetData) {
 
         Bundle args = new Bundle();
@@ -44,13 +43,10 @@ public class FragmentItems extends Fragment {
         recyclerView = view.findViewById(R.id.rcv);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-
         //check Internet
         publicMethod= new PublicMethod();
         if(publicMethod.checkConnectInternet(getContext()))
             loadRSS();
-        else
-            Toast.makeText(getContext(), R.string.NoInternet, Toast.LENGTH_LONG).show();
         return view;
     }
 
@@ -73,7 +69,7 @@ public class FragmentItems extends Fragment {
 
             @Override
             protected void onPostExecute(String s) {
-                mDialong.show();
+                mDialong.dismiss();
                 rssObject= new Gson().fromJson(s, RootObject.class);
                 ItemAdapter itemAdapter= new ItemAdapter(rssObject, getContext());
                 recyclerView.setAdapter(itemAdapter);
@@ -100,5 +96,4 @@ public class FragmentItems extends Fragment {
             throw new RuntimeException(context.toString() + "must implement");
         }
     }
-
 }

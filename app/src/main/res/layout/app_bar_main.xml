@@ -37,7 +37,6 @@
                 app:sliderStartAutoCycle="true"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_150sdp">
-
             </com.smarteist.autoimageslider.SliderView>
 
             <androidx.appcompat.widget.Toolbar

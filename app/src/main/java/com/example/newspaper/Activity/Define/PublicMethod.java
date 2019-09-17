@@ -3,6 +3,7 @@ package com.example.newspaper.Activity.Define;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 import com.example.newspaper.Activity.Model.ItemRelated;
 import com.example.newspaper.Activity.Model.ItemSave;
 
@@ -29,12 +30,16 @@ public class PublicMethod {
         return false;
     }
 
-    public String dataLink(String s){
+    public String dataLinkJPG(String s){
         int indexFirst= s.indexOf("https");
         int indexLast= s.indexOf(".jpg");
         return s.substring(indexFirst, indexLast+4);
     }
-
+    public String dataLinkPNG(String s){
+        int indexFirst= s.indexOf("https");
+        int indexLast= s.indexOf(".png");
+        return s.substring(indexFirst, indexLast+4);
+    }
     public boolean checkConnectInternet(Context context){
         boolean connected= false;
         ConnectivityManager connectivityManager= (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -48,4 +53,5 @@ public class PublicMethod {
         int indexLast= s.indexOf("\"", indexFirst+10);
         return s.substring(indexFirst+7, indexLast);
     }
+
 }

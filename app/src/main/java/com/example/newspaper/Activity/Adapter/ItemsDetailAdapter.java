@@ -11,9 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.newspaper.Activity.Model.Detail;
 import com.example.newspaper.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 // adapter phần thông tin của bài viết
@@ -47,10 +47,10 @@ public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.
         else {
             holder.layoutTop.setVisibility(View.GONE);
             holder.tvImageDetail.setText(detail.getText());
-            Picasso.with(context)
+            Glide.with(context)
                     .load(detail.getImageLink())
-                    .placeholder(R.drawable.ic_menu_gallery)
-                    .error(R.drawable.ic_menu_gallery)
+                    //.placeholder(R.drawable.ic_menu_gallery)
+                    //.error(R.drawable.ic_menu_gallery)
                     .into(holder.imageDetail);
         }
     }

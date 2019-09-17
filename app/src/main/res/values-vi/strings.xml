@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">VNExpress</string>
     <string name="Language">Ngôn ngữ</string>
-    <string name="NoInternet">Không kết nối mạng</string>
+    <string name="NoInternet">Không có kết nối mạng</string>
     <string name="VietNamese">Tiếng Việt</string>
     <string name="action_settings">Cài đặt</string>
     <string name="complete">Thành công</string>
@@ -46,4 +46,7 @@
     <string name="menu_slideshow">Trình chiếu</string>
     <string name="English">Tiếng Anh</string>
     <string name="offline">Đọc offline</string>
+    <string name="tryAgain">Thử lại</string>
+    <string name="more">Xem thêm</string>
+    <string name="cancel">Bỏ qua</string>
 </resources>

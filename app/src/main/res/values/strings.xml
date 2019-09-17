@@ -45,4 +45,8 @@
     <string name="VietNamese">Vietnamese</string>
     <string name="English">English</string>
     <string name="offline">Offline</string>
+    <string name="tryAgain">Try again</string>
+    <string name="more">More</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

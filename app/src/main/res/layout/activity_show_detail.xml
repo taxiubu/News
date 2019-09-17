@@ -1,125 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
     tools:context=".Activity.Activity.ShowDetail">
 
-    <RelativeLayout
-        android:id="@+id/Toolbar"
-        android:background="@color/colorAccent"
-        android:orientation="horizontal"
+    <com.google.android.material.appbar.AppBarLayout
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/layoutToolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp">
-
-        <TextView
-            android:id="@+id/btSave"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/colorWhite"
-            android:text="@string/save"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:textSize="@dimen/_15sdp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/btBack"
-            android:background="@drawable/ic_arrow_back_white_24dp"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/taskBar"
-        android:background="@color/colorAccent"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp">
-
-        <ImageView
-            android:id="@+id/btZoomOut"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_zoom_out_white_24dp"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp" />
-
-        <ImageView
-            android:id="@+id/btZoomIn"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_zoom_in_white_24dp"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp" />
-    </RelativeLayout>
-
-    <ScrollView
-        android:id="@+id/layoutDetail"
-        android:layout_above="@+id/taskBar"
-        android:layout_below="@+id/Toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:id="@+id/toolbarActDetail"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:background="@color/colorAccent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:gravity="right"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:textStyle="italic"
-                android:layout_below="@+id/tvDescriptionShow"
-                android:id="@+id/tvPubDateShow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:textSize="@dimen/_20sdp"
-                android:textStyle="bold"
-                android:id="@+id/tvTitleShow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:textSize="@dimen/_15sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_below="@+id/tvTitleShow"
-                android:id="@+id/tvDescriptionShow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@+id/tvPubDateShow"
-                android:id="@+id/rcvDetail"
+            android:layout_height="?attr/actionBarSize">
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </androidx.recyclerview.widget.RecyclerView>
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/btBack"
+                    android:background="@drawable/ic_arrow_back_white_24dp"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp" />
+                <TextView
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/btSave"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorWhite"
+                    android:text="@string/save"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:textSize="@dimen/_15sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
 
-            <TextView
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:id="@+id/tvBaiVietLQ"
-                android:textStyle="bold"
-                android:textSize="@dimen/_15sdp"
-                android:layout_below="@+id/rcvDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@+id/tvBaiVietLQ"
-                android:id="@+id/rcvRelatedItem"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
 
-            </androidx.recyclerview.widget.RecyclerView>
-        </RelativeLayout>
-    </ScrollView>
-
-</RelativeLayout>
+    <include layout="@layout/layout_detailactvity"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

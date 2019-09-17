@@ -1,15 +1,19 @@
 package com.example.newspaper.Activity.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -26,6 +30,7 @@ import com.example.newspaper.Activity.Interface.IOnClickItem;
 import com.example.newspaper.Activity.Model.ItemRelated;
 import com.example.newspaper.Activity.SQL.SQLClickHistory;
 import com.example.newspaper.R;
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.navigation.NavigationView;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -34,17 +39,25 @@ import com.smarteist.autoimageslider.SliderView;
 import java.util.List;
 import java.util.Locale;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IOnClickItem {
     private static final String TAG = "MainActivity";
     SQLClickHistory sqlClickHistory;
     PublicMethod publicMethod;
     SliderView imageToolbar;
+    Disposable internet;
+    FrameLayout contain;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -62,6 +75,7 @@ public class MainActivity extends AppCompatActivity
         imageToolbar.setSliderAdapter(sliderAdapter);
         imageToolbar.setIndicatorAnimation(IndicatorAnimations.SLIDE);
         imageToolbar.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        contain= findViewById(R.id.contain);
     }
 
     @Override
@@ -93,13 +107,13 @@ public class MainActivity extends AppCompatActivity
             case R.id.item1:{
                 Toast.makeText(getBaseContext(), R.string.newsSave, Toast.LENGTH_LONG).show();
                 getFragment(FragmentSave.newInstance());
-                getSupportActionBar().setTitle(R.string.newsSave);
+                toolbar.setTitle(R.string.newsSave);
                 break;
             }
             case R.id.item2:{
                 Toast.makeText(getBaseContext(), R.string.newsClick, Toast.LENGTH_LONG).show();
                 getFragment(FragmentHistory.newInstance());
-                getSupportActionBar().setTitle(R.string.newsClick);
+                toolbar.setTitle(R.string.newsClick);
                 break;
             }
             case R.id.Vietnamese:{
@@ -118,7 +132,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        final ActionBar toolbar= getSupportActionBar();
+        //final ActionBar toolbar= getSupportActionBar();
         int id = item.getItemId();
         String urlGetData;
 
@@ -126,95 +140,77 @@ public class MainActivity extends AppCompatActivity
             case R.id.menu1:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_trangchu;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu1);
                 break;
             }
             case R.id.menu2:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_thoisu;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu2);
                 break;
             }
             case R.id.menu3:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_thegioi;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu3);
                 break;
             }case R.id.menu4:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_kinhdoanh;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu4);
                 break;
             }
             case R.id.menu5:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_startup;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu5);
                 break;
             }case R.id.menu6:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_giaitri;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu6);
                 break;
             }case R.id.menu7:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_thethao;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu7);
                 break;
             }case R.id.menu8:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_phapluat;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu8);
                 break;
             }case R.id.menu9:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_giaoduc;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu9);
                 break;
             }case R.id.menu10:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_suckhoe;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu10);
                 break;
             }case R.id.menu11:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_doisong;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu11);
                 break;
             }case R.id.menu12:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_dulich;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu12);
                 break;
             }case R.id.menu13:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_khoahoc;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu13);
                 break;
             }case R.id.menu14:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_sohoa;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu14);
                 break;
             }case R.id.menu15:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_xe;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu15);
                 break;
             }case R.id.menu16:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_ykien;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu16);
                 break;
             }case R.id.menu17:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_tamsu;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu17);
                 break;
             }case R.id.menu18:{
                 urlGetData= Define.RSS_to_Json_API+ Define.RSS_cuoi;
                 getFragment(FragmentItems.newInstance(urlGetData));
-                toolbar.setTitle(R.string.menu18);
                 break;
             }
         }
@@ -233,6 +229,27 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, "getFragment: "+e.getMessage());
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        internet= ReactiveNetwork.observeInternetConnectivity()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean isConnected) throws Exception {
+                        if(isConnected==false){
+                            diaLogNoInternet();
+                        }
+                        else
+                        {
+                            contain.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+    }
+
     @Override
     public void onClick(String title, String link) {
         // insert to SQLClickHistory
@@ -240,9 +257,12 @@ public class MainActivity extends AppCompatActivity
         List<ItemRelated> list;
         list= sqlClickHistory.getAllItem();
         publicMethod= new PublicMethod();
-        if(publicMethod.checkTitleItemClick(title, list)==false){
+        if(publicMethod.checkTitleItemClick(title, list)){
+            sqlClickHistory.deleteItemClick(title);
             sqlClickHistory.insertItem(title, link);
         }
+        else
+            sqlClickHistory.insertItem(title, link);
 
         // showDetail
         Intent intent= new Intent(getBaseContext(), ShowDetail.class);
@@ -250,6 +270,7 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
         overridePendingTransition(R.anim.anim_enter, R.anim.anim_exit);
     }
+    //chọn ngôn ngữ
     public void changeLanguage(String language){
         Locale locale= new Locale(language);
         Configuration configuration= new Configuration();
@@ -258,5 +279,26 @@ public class MainActivity extends AppCompatActivity
                 configuration, getBaseContext().getResources().getDisplayMetrics()
         );
         startActivity(new Intent(MainActivity.this, MainActivity.class));
+    }
+    //AlertDialong
+    public void diaLogNoInternet(){
+        final AlertDialog.Builder dialog= new AlertDialog.Builder(this);
+        dialog.setTitle(R.string.NoInternet);
+        dialog.setMessage(R.string.tryAgain);
+        dialog.setCancelable(false);
+        dialog.setPositiveButton(R.string.action_settings, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(Settings.ACTION_SETTINGS));
+            }
+        });
+        dialog.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
