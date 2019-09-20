@@ -5,7 +5,7 @@
     <string name="NoInternet">Không có kết nối mạng</string>
     <string name="VietNamese">Tiếng Việt</string>
     <string name="action_settings">Cài đặt</string>
-    <string name="complete">Thành công</string>
+    <string name="complete">Thay đổi thành công</string>
     <string name="menu1">Trang chủ</string>
     <string name="menu10">Sức khỏe</string>
     <string name="menu11">Đời sống</string>
@@ -46,7 +46,10 @@
     <string name="menu_slideshow">Trình chiếu</string>
     <string name="English">Tiếng Anh</string>
     <string name="offline">Đọc offline</string>
-    <string name="tryAgain">Thử lại</string>
+    <string name="messDialog">Vui lòng kiểm tra lại kết nối</string>
     <string name="more">Xem thêm</string>
     <string name="cancel">Bỏ qua</string>
+    <string name="viewMode">Chế độ xem</string>
+    <string name="dark">Tối</string>
+    <string name="light">Sáng</string>
 </resources>

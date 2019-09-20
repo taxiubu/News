@@ -1,102 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".Activity.Activity.ShowItemSave">
 
-    <RelativeLayout
-        android:id="@+id/llToolbarOffline"
-        android:background="@color/colorAccent"
-        android:orientation="horizontal"
+    <com.google.android.material.appbar.AppBarLayout
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/layoutToolbarOffice"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp">
-
-        <TextView
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/colorWhite"
-            android:text="@string/offline"
-            android:textSize="@dimen/_20sdp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:layout_centerVertical="true"
-            android:id="@+id/btBackOffline"
-            android:background="@drawable/ic_arrow_back_white_24dp"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/taskBarOffline"
-        android:background="@color/colorAccent"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp">
-
-        <ImageView
-            android:id="@+id/btZoomOutOffline"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_zoom_out_white_24dp"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp" />
-
-        <ImageView
-            android:id="@+id/btZoomInOffline"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/ic_zoom_in_white_24dp"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp" />
-    </RelativeLayout>
-
-    <ScrollView
-        android:layout_below="@+id/llToolbarOffline"
-        android:layout_above="@+id/taskBarOffline"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:id="@+id/toolbarActItemSave"
+            app:layout_scrollFlags="scroll|enterAlways"
+            android:background="@color/colorAccent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:gravity="right"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:textStyle="italic"
-                android:layout_below="@+id/tvDesItemSaveShow"
-                android:id="@+id/tvPubDateItemSaveShow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:textSize="@dimen/_20sdp"
-                android:textStyle="bold"
-                android:id="@+id/tvTitleItemSaveShow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:textSize="@dimen/_15sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:layout_below="@+id/tvTitleItemSaveShow"
-                android:id="@+id/tvDesItemSaveShow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@+id/tvPubDateItemSaveShow"
-                android:id="@+id/rcvItemSaveDetail"
+            android:layout_height="?attr/actionBarSize">
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </androidx.recyclerview.widget.RecyclerView>
-        </RelativeLayout>
-    </ScrollView>
-</RelativeLayout>
+
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorWhite"
+                    android:text="@string/offline"
+                    android:textSize="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/btBackOffline"
+                    android:background="@drawable/ic_arrow_back_white_24dp"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp" />
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <include layout="@layout/layout_itemsave_activity"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

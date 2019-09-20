@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/_49sdp">
 
-    <ImageView
-        android:layout_marginTop="@dimen/_15sdp"
-        android:background="@drawable/line"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
     <TextView
-        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_margin="@dimen/_5sdp"
         android:minLines="2"
         android:maxLines="2"
         android:id="@+id/tvTitleItems"
@@ -19,4 +14,9 @@
         android:textSize="@dimen/_15sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <ImageView
+        android:background="@drawable/line"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_5sdp" />
 </RelativeLayout>

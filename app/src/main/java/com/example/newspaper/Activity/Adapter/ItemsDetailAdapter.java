@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.newspaper.Activity.Interface.IOnClickZoomImage;
 import com.example.newspaper.Activity.Model.Detail;
 import com.example.newspaper.R;
 
@@ -22,6 +23,12 @@ public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.
     private ArrayList<Detail> list;
     private LayoutInflater inflater;
     private float sizeText;
+    IOnClickZoomImage zoomImage;
+
+    public void setZoomImage(IOnClickZoomImage zoomImage) {
+        this.zoomImage = zoomImage;
+    }
+
     public ItemsDetailAdapter(Context context, ArrayList<Detail> list, float sizeText) {
         this.context = context;
         this.list = list;
@@ -37,7 +44,7 @@ public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewDetailHoder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewDetailHoder holder, int position) {
         final Detail detail= list.get(position);
         if (detail.getBl()==true){
             holder.layoutBottom.setVisibility(View.GONE);
@@ -49,9 +56,13 @@ public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.
             holder.tvImageDetail.setText(detail.getText());
             Glide.with(context)
                     .load(detail.getImageLink())
-                    //.placeholder(R.drawable.ic_menu_gallery)
-                    //.error(R.drawable.ic_menu_gallery)
                     .into(holder.imageDetail);
+            holder.imageDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    zoomImage.onClick(detail.getImageLink());
+                }
+            });
         }
     }
 
@@ -72,7 +83,6 @@ public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.
             imageDetail= itemView.findViewById(R.id.imageDetail);
             layoutTop= itemView.findViewById(R.id.layout_top);
             layoutBottom= itemView.findViewById(R.id.layout_bottom);
-
         }
     }
 

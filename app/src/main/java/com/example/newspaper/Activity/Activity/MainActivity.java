@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity
         imageToolbar= findViewById(R.id.imageToolbar);
         SliderAdapter sliderAdapter= new SliderAdapter(getBaseContext());
         imageToolbar.setSliderAdapter(sliderAdapter);
+
         imageToolbar.setIndicatorAnimation(IndicatorAnimations.SLIDE);
         imageToolbar.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
         contain= findViewById(R.id.contain);
@@ -122,6 +123,7 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.English:{
                 changeLanguage("nv-rUS");
+                break;
             }
         }
 
@@ -284,7 +286,7 @@ public class MainActivity extends AppCompatActivity
     public void diaLogNoInternet(){
         final AlertDialog.Builder dialog= new AlertDialog.Builder(this);
         dialog.setTitle(R.string.NoInternet);
-        dialog.setMessage(R.string.tryAgain);
+        dialog.setMessage(R.string.messDialog);
         dialog.setCancelable(false);
         dialog.setPositiveButton(R.string.action_settings, new DialogInterface.OnClickListener() {
             @Override

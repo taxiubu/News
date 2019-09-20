@@ -40,7 +40,7 @@ public class FragmentHistory extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view= inflater.inflate(R.layout.fragment_history, container, false);
         rcvItemHistory= view.findViewById(R.id.rcvItemHistory);
         btRemoveAll= view.findViewById(R.id.btRemoveAllHistory);
@@ -77,11 +77,7 @@ public class FragmentHistory extends Fragment {
                         }
                         else {
                             sqlClickHistory.deleteItemClick(title);
-                            //getList= sqlClickHistory.getAllItem();
                             listHistory.remove(new ItemRelated(title, link));
-                            //adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) getList);
-                            //rcvItemHistory.setAdapter(adapter);
-                            //adapter.notifyDataSetChanged();
                             Toast.makeText(getContext(), R.string.remove, Toast.LENGTH_LONG).show();
                         }
                         return false;

@@ -28,6 +28,8 @@ public class FragmentSave extends Fragment {
     RecyclerView rcvItemSave;
     SQLItemSave sqlItemSave;
     TextView btRemoveAll;
+    List<ItemSave> getList, saveList;
+    ItemSaveAdapter itemSaveAdapter;
     public static FragmentSave newInstance() {
 
         Bundle args = new Bundle();
@@ -48,9 +50,13 @@ public class FragmentSave extends Fragment {
 
         // lấy list từ bảng SQLItemSave
         sqlItemSave= new SQLItemSave(getContext());
-        List<ItemSave> saveList;
-        saveList= sqlItemSave.getAllItemSave();
-        ItemSaveAdapter itemSaveAdapter= new ItemSaveAdapter(getContext(), (ArrayList<ItemSave>) saveList);
+        getList= sqlItemSave.getAllItemSave();
+        int size= getList.size();
+        saveList= new ArrayList<>();
+        for(int i = size-1; i>=0; i--){
+            saveList.add(getList.get(i));
+        }
+        itemSaveAdapter= new ItemSaveAdapter(getContext(), (ArrayList<ItemSave>) saveList);
         rcvItemSave.setAdapter(itemSaveAdapter);
         itemSaveAdapter.setIOnClickSaveItem(new IOnClickSaveItem() {
             @Override
@@ -69,10 +75,7 @@ public class FragmentSave extends Fragment {
                         }
                         else {
                             sqlItemSave.deleteItemSave(title);
-                            List<ItemSave> removeList;
-                            removeList= sqlItemSave.getAllItemSave();
-                            ItemSaveAdapter removeItem= new ItemSaveAdapter(getContext(), (ArrayList<ItemSave>) removeList);
-                            rcvItemSave.setAdapter(removeItem);
+                            saveList.remove(new ItemSave(title, document));
                             Toast.makeText(getContext(), R.string.remove, Toast.LENGTH_LONG).show();
                         }
                         return false;
@@ -88,10 +91,10 @@ public class FragmentSave extends Fragment {
             @Override
             public void onClick(View view) {
                 sqlItemSave.deleteAll();
-                List<ItemSave> listRemoveALl;
-                listRemoveALl= sqlItemSave.getAllItemSave();
-                ItemSaveAdapter RemoveAll= new ItemSaveAdapter(getContext(), (ArrayList<ItemSave>) listRemoveALl);
-                rcvItemSave.setAdapter(RemoveAll);
+                getList= sqlItemSave.getAllItemSave();
+                itemSaveAdapter= new ItemSaveAdapter(getContext(), (ArrayList<ItemSave>) getList);
+                rcvItemSave.setAdapter(itemSaveAdapter);
+                itemSaveAdapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), R.string.removeAll, Toast.LENGTH_LONG).show();
             }
         });

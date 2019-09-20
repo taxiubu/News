@@ -36,7 +36,7 @@
     <string name="newsClick">"Recent readings "</string>
     <string name="remove">Remove</string>
     <string name="removeAll">Remove All</string>
-    <string name="complete">Complete</string>
+    <string name="complete">Complete !</string>
     <string name="view">View</string>
     <string name="NoInternet">No Internet</string>
     <string name="zoomIn">Zoom In</string>
@@ -45,8 +45,11 @@
     <string name="VietNamese">Vietnamese</string>
     <string name="English">English</string>
     <string name="offline">Offline</string>
-    <string name="tryAgain">Try again</string>
+    <string name="messDialog">Please check the Internet</string>
     <string name="more">More</string>
     <string name="cancel">Cancel</string>
+    <string name="viewMode">View Mode</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
 
 </resources>

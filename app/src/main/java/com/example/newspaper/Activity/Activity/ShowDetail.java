@@ -5,19 +5,23 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newspaper.Activity.Adapter.ItemsDetailAdapter;
 import com.example.newspaper.Activity.Adapter.RelatedItemAdapter;
 import com.example.newspaper.Activity.Define.PublicMethod;
+import com.example.newspaper.Activity.DialogCustom.DialogZoomImage;
 import com.example.newspaper.Activity.Interface.IOnClickItem;
+import com.example.newspaper.Activity.Interface.IOnClickZoomImage;
 import com.example.newspaper.Activity.Model.Detail;
 import com.example.newspaper.Activity.Model.ItemRelated;
 import com.example.newspaper.Activity.Model.ItemSave;
@@ -51,17 +55,21 @@ public class ShowDetail extends AppCompatActivity {
     ImageView btZoomOut, btZoomIn;
     PublicMethod publicMethod= new PublicMethod();
     SpinKitView loading;
+    ImageView btBrightness;
+    RelativeLayout layoutBrightness;
+    int check= 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_detail);
         Toolbar toolbarActDetail = findViewById(R.id.toolbarActDetail);
         setSupportActionBar(toolbarActDetail);
-        //getSupportActionBar().hide();
+
         // loading
         loading= findViewById(R.id.loading);
         loading.setVisibility(View.VISIBLE);
 
+        btBrightness= findViewById(R.id.btBrightness);
         btBack= findViewById(R.id.btBack);
         tvShowTitle= findViewById(R.id.tvTitleShow);
         tvPubDateShow= findViewById(R.id.tvPubDateShow);
@@ -102,6 +110,27 @@ public class ShowDetail extends AppCompatActivity {
             new LoadDetail().execute(link);
             new LoadRelatedItem().execute(link);
         }
+
+        //độ sáng
+        layoutBrightness = findViewById(R.id.layoutBrightness);
+        layoutBrightness.setVisibility(View.GONE);
+        btBrightness.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if(check== 1) {
+                    btBrightness.setBackgroundResource(R.drawable.light_white_24dp);
+                    check = 0;
+                    layoutBrightness.setVisibility(View.GONE);
+                }
+                else {
+                    btBrightness.setBackgroundResource(R.drawable.dark_white_24dp);
+                    check= 1;
+                    layoutBrightness.setVisibility(View.VISIBLE);
+                }
+                Toast.makeText(getBaseContext(), R.string.complete, Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
@@ -251,6 +280,12 @@ public class ShowDetail extends AppCompatActivity {
             //setAdapter cho rcvDetail
             adapter= new ItemsDetailAdapter(getBaseContext(), strings, textSize);
             recyclerViewDetail.setAdapter(adapter);
+            adapter.setZoomImage(new IOnClickZoomImage() {
+                @Override
+                public void onClick(String linkImage) {
+                    showDialog(linkImage);
+                }
+            });
             adapter.notifyDataSetChanged();
 
         }
@@ -277,8 +312,15 @@ public class ShowDetail extends AppCompatActivity {
                             Element tag_a = element.selectFirst("a");
                             titleLi = publicMethod.dataTitle(h4.html());
                             linkLi = tag_a.attr("href");
-                            //String linkLi = publicMethod.dataLinkJPG(h4.html());
-                            arrayListRelated.add(new ItemRelated(titleLi, linkLi));
+                            if(titleLi==null){
+                                titleLi= publicMethod.dataTitle(element.html());
+                                linkLi= element.attr("href");
+                                arrayListRelated.add(new ItemRelated(titleLi, linkLi));
+                            }
+                            else{
+                                arrayListRelated.add(new ItemRelated(titleLi, linkLi));
+                            }
+
 
                         }
                     }
@@ -346,4 +388,9 @@ public class ShowDetail extends AppCompatActivity {
         }
     }
 
+    public void showDialog(String linkImage){
+        FragmentManager fragmentManager= getSupportFragmentManager();
+        DialogZoomImage dialogZoomImage= DialogZoomImage.newInstance(linkImage);
+        dialogZoomImage.show(fragmentManager, null);
+    }
 }

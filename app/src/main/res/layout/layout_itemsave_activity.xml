@@ -1,120 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-        android:id="@+id/layoutBrightness"
+        android:id="@+id/layoutBrightnessO"
         android:background="@color/colorWhiteLight"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></RelativeLayout>
-    <com.github.ybq.android.spinkit.SpinKitView
-        android:id="@+id/loading"
-        style="@style/SpinKitView.Large.FadingCircle"
-        app:SpinKit_Color="@color/colorAccent"
-        android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/_70sdp"
-        android:layout_height="@dimen/_70sdp" />
-
     <RelativeLayout
-        android:id="@+id/taskBar"
+        android:id="@+id/taskBarOffline"
         android:background="@color/colorAccent"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp">
-
         <ImageView
-            android:id="@+id/btZoomOut"
+            android:background="@drawable/light_white_24dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/btBrightnessO"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp" />
+        <ImageView
+            android:id="@+id/btZoomOutOffline"
             android:layout_centerVertical="true"
             android:background="@drawable/ic_zoom_out_white_24dp"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp" />
 
         <ImageView
-            android:id="@+id/btZoomIn"
+            android:id="@+id/btZoomInOffline"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/ic_zoom_in_white_24dp"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp" />
-        <ImageView
-            android:background="@drawable/light_white_24dp"
-            android:layout_centerInParent="true"
-            android:id="@+id/btBrightness"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp" />
     </RelativeLayout>
 
     <ScrollView
-        android:id="@+id/layoutDetail"
-        android:layout_above="@+id/taskBar"
-
+        android:layout_above="@+id/taskBarOffline"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:textColor="@color/colorBlack"
                 android:gravity="right"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:textStyle="italic"
-                android:layout_below="@+id/tvDescriptionShow"
-                android:id="@+id/tvPubDateShow"
+                android:layout_below="@+id/tvDesItemSaveShow"
+                android:id="@+id/tvPubDateItemSaveShow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:textColor="@color/colorBlack"
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:textSize="@dimen/_20sdp"
                 android:textStyle="bold"
-                android:id="@+id/tvTitleShow"
+                android:id="@+id/tvTitleItemSaveShow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_15sdp"
                 android:layout_margin="@dimen/_5sdp"
-                android:layout_below="@+id/tvTitleShow"
-                android:id="@+id/tvDescriptionShow"
+                android:layout_below="@+id/tvTitleItemSaveShow"
+                android:id="@+id/tvDesItemSaveShow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@+id/tvPubDateShow"
-                android:id="@+id/rcvDetail"
+                android:layout_below="@+id/tvPubDateItemSaveShow"
+                android:id="@+id/rcvItemSaveDetail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <TextView
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_margin="@dimen/_5sdp"
-                android:id="@+id/tvBaiVietLQ"
-                android:textStyle="bold"
-                android:textSize="@dimen/_15sdp"
-                android:layout_below="@+id/rcvDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_below="@+id/tvBaiVietLQ"
-                android:id="@+id/rcvRelatedItem"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
             </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>
     </ScrollView>

@@ -3,10 +3,12 @@ package com.example.newspaper.Activity.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,21 +31,25 @@ public class ShowItemSave extends AppCompatActivity {
     ImageView btBack;
     String title, des, pubDate;
     List<Detail> details;
-    ImageView btZoomOutOff, btZoomInOff;
+    ImageView btZoomOutOff, btZoomInOff, btBrightness;
     PublicMethod publicMethod= new PublicMethod();
     Float sizeText= 15F;
     ItemsDetailAdapter detailAdapter;
-
+    RelativeLayout layoutBrightness;
+    int check= 0;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_item_save);
-        getSupportActionBar().hide();
+        Toolbar toolbarActItemSave= findViewById(R.id.toolbarActItemSave);
+        setSupportActionBar(toolbarActItemSave);
         tvTitleItemSave= findViewById(R.id.tvTitleItemSaveShow);
         tvDesItemSave= findViewById(R.id.tvDesItemSaveShow);
         tvPubDateItemSave= findViewById(R.id.tvPubDateItemSaveShow);
         btZoomInOff= findViewById(R.id.btZoomInOffline);
         btZoomOutOff= findViewById(R.id.btZoomOutOffline);
+        layoutBrightness= findViewById(R.id.layoutBrightnessO);
+        btBrightness= findViewById(R.id.btBrightnessO);
 
         //btBack
         btBack= findViewById(R.id.btBackOffline);
@@ -67,20 +73,24 @@ public class ShowItemSave extends AppCompatActivity {
             Element article= document.select("article").first();
             Elements lineDetail= article.select("p, table, div#article_content");
             for (Element element: lineDetail){
-
+                String imageLink=null;
+                String textTitle=null;
                 String text= element.html();
                 Boolean bl= true;
                 if(text.indexOf(".jpg")!=-1){
-                    String imageLink;
-                    String textTitle;
                     bl= false;
                     imageLink= publicMethod.dataLinkJPG(text);
                     textTitle= element.select("p.Image").text();
-                    details.add(new Detail(textTitle, imageLink, bl));
+                }
+                else if(text.indexOf(".png")!=-1){
+                    bl= false;
+                    imageLink= publicMethod.dataLinkPNG(text);
+                    textTitle= element.select("p.Image").text();
                 }
                 else{
-                    details.add(new Detail(element.text(), "", bl));
+                    textTitle= element.text();
                 }
+                details.add(new Detail(textTitle, imageLink, bl));
             }
 
             //setText tiêu đề
@@ -121,6 +131,25 @@ public class ShowItemSave extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Max", Toast.LENGTH_LONG).show();
                 detailAdapter= new ItemsDetailAdapter(getBaseContext(), (ArrayList<Detail>) details, sizeText);
                 rcvItemSaveDetail.setAdapter(detailAdapter);
+            }
+        });
+
+        //độ sáng
+        layoutBrightness.setVisibility(View.GONE);
+        btBrightness.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(check== 1) {
+                    btBrightness.setBackgroundResource(R.drawable.light_white_24dp);
+                    check = 0;
+                    layoutBrightness.setVisibility(View.GONE);
+                }
+                else {
+                    btBrightness.setBackgroundResource(R.drawable.dark_white_24dp);
+                    check= 1;
+                    layoutBrightness.setVisibility(View.VISIBLE);
+                }
+                Toast.makeText(getBaseContext(), R.string.complete, Toast.LENGTH_LONG).show();
             }
         });
     }

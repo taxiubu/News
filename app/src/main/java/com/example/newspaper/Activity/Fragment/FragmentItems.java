@@ -63,7 +63,7 @@ public class FragmentItems extends Fragment {
 
             @Override
             protected void onPreExecute() {
-                mDialong.setMessage("Mạng lag chờ xíu ...");
+                mDialong.setMessage("Loading ...");
                 mDialong.show();
             }
 
