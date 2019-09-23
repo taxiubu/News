@@ -9,11 +9,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newspaper.Activity.Adapter.ItemsDetailAdapter;
 import com.example.newspaper.Activity.Define.PublicMethod;
+import com.example.newspaper.Activity.DialogCustom.DialogZoomImage;
+import com.example.newspaper.Activity.Interface.IOnClickZoomImage;
 import com.example.newspaper.Activity.Model.Detail;
 import com.example.newspaper.R;
 
@@ -71,32 +74,36 @@ public class ShowItemSave extends AppCompatActivity {
         Document document= Jsoup.parse(html);
         if(document!=null){
             Element article= document.select("article").first();
-            Elements lineDetail= article.select("p, table, div#article_content");
-            for (Element element: lineDetail){
-                String imageLink=null;
-                String textTitle=null;
-                String text= element.html();
-                Boolean bl= true;
-                if(text.indexOf(".jpg")!=-1){
-                    bl= false;
-                    imageLink= publicMethod.dataLinkJPG(text);
-                    textTitle= element.select("p.Image").text();
+            if(article!=null){
+                Elements lineDetail= article.select("p, table, div#article_content, div.width_common");
+                for (Element element: lineDetail){
+                    String imageLink=null;
+                    String textTitle=null;
+                    String text= element.html();
+                    Boolean bl= true;
+                    if(text.indexOf(".jpg")!=-1){
+                        bl= false;
+                        imageLink= publicMethod.dataLinkJPG(text);
+                        textTitle= element.select("p.Image").text();
+                    }
+                    else if(text.indexOf(".png")!=-1){
+                        bl= false;
+                        imageLink= publicMethod.dataLinkPNG(text);
+                        textTitle= element.select("p.Image").text();
+                    }
+                    else{
+                        textTitle= element.text();
+                    }
+                    details.add(new Detail(textTitle, imageLink, bl));
                 }
-                else if(text.indexOf(".png")!=-1){
-                    bl= false;
-                    imageLink= publicMethod.dataLinkPNG(text);
-                    textTitle= element.select("p.Image").text();
-                }
-                else{
-                    textTitle= element.text();
-                }
-                details.add(new Detail(textTitle, imageLink, bl));
-            }
 
+                //tiêu đề
+                title= document.selectFirst("h1").text();
+                des= document.selectFirst("p").text();
+                pubDate= document.selectFirst("span").text();
+
+            }
             //setText tiêu đề
-            title= document.selectFirst("h1").text();
-            des= document.selectFirst("p").text();
-            pubDate= document.selectFirst("span").text();
             tvTitleItemSave.setText(title);
             tvDesItemSave.setText(des);
             tvPubDateItemSave.setText(pubDate);
@@ -105,12 +112,18 @@ public class ShowItemSave extends AppCompatActivity {
         //setAdapter
         detailAdapter= new ItemsDetailAdapter(getBaseContext(), (ArrayList<Detail>) details, sizeText);
         rcvItemSaveDetail.setAdapter(detailAdapter);
+        detailAdapter.setZoomImage(new IOnClickZoomImage() {
+            @Override
+            public void onClick(String linkImage) {
+                showDialog(linkImage);
+            }
+        });
 
         //btZoom
         btZoomOutOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(sizeText>9){
+                if(sizeText>13){
                     sizeText-=2;
                     Toast.makeText(getBaseContext(), R.string.zoomOut, Toast.LENGTH_LONG).show();
                 }
@@ -152,5 +165,11 @@ public class ShowItemSave extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), R.string.complete, Toast.LENGTH_LONG).show();
             }
         });
+
+    }
+    public void showDialog(String linkImage){
+        FragmentManager fragmentManager= getSupportFragmentManager();
+        DialogZoomImage dialogZoomImage= DialogZoomImage.newInstance(linkImage);
+        dialogZoomImage.show(fragmentManager, null);
     }
 }

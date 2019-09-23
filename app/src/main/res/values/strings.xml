@@ -4,7 +4,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">https://vnexpress.net</string>
-    <string name="nav_header_desc">Vietnamese newspaper most people see</string>
+    <string name="nav_header_desc">VNExpress</string>
     <string name="action_settings">Settings</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
@@ -51,5 +51,6 @@
     <string name="viewMode">View Mode</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
+    <string name="search">Search</string>
 
 </resources>

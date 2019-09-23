@@ -21,7 +21,12 @@
                     android:layout_height="wrap_content" />
             </RelativeLayout>
         </HorizontalScrollView>
-
+        <Button
+            android:id="@+id/btExit"
+            android:background="@color/colorBlackLight"
+            android:text="X"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp" />
     </RelativeLayout>
 
 </ScrollView>

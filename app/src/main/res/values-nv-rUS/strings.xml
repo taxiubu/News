@@ -32,7 +32,6 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>
     <string name="messWait">Loading ...</string>
-    <string name="nav_header_desc">Vietnamese newspaper most people see</string>
     <string name="nav_header_subtitle">https://vnexpress.net</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -52,4 +51,6 @@
     <string name="viewMode">View Mode</string>
     <string name="dark">Dark</string>
     <string name="light">Light</string>
+    <string name="nav_header_desc">VNExpress</string>
+    <string name="search">Search</string>
 </resources>

@@ -50,7 +50,7 @@
     <RelativeLayout
         android:id="@+id/layout_item_small"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_65sdp">
+        android:layout_height="@dimen/_70sdp">
 
         <ImageView
             android:layout_margin="@dimen/_5sdp"
@@ -60,7 +60,7 @@
                 />
         <TextView
             android:layout_marginRight="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_2sdp"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_15sdp"
             android:layout_toRightOf="@+id/imageItem"

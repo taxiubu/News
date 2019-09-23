@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.example.newspaper.R;
 
 public class DialogZoomImage extends DialogFragment {
     ImageView imageView;
+    Button btExit;
     ScaleGestureDetector scaleGestureDetector;
     public static DialogZoomImage newInstance(String linkImage) {
         DialogZoomImage dialog= new DialogZoomImage();
@@ -38,15 +40,16 @@ public class DialogZoomImage extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         String linkImage= getArguments().getString("linkImage");
         imageView= view.findViewById(R.id.imageZoom);
+        btExit= view.findViewById(R.id.btExit);
         Glide.with(getContext())
                 .load(linkImage)
                 .into(imageView);
-        /*imageView.setOnClickListener(new View.OnClickListener() {
+        btExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getDialog().dismiss();
             }
-        });*/
+        });
         scaleGestureDetector= new ScaleGestureDetector(getContext(), new MyGesture());
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override

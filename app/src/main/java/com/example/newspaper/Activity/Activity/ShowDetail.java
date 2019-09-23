@@ -146,13 +146,22 @@ public class ShowDetail extends AppCompatActivity {
                     Element container= document.select("section.container").first();
                     if(container!=null){
                         Element sidebar1= container.select("section.sidebar_1").first();
-                        documentItemSave= sidebar1.html();
-                        titleDetail= sidebar1.selectFirst("h1").text();
-                        descriptionDetail= sidebar1.selectFirst("p").text();
-                        pubDateDetail= sidebar1.selectFirst("span").text();
-
-                        Element article= sidebar1.select("article").first();
-                        Elements lineDetail= article.select("p.Normal, table, div#article_content, p.MsNormal");
+                        Element article= null;
+                        if(sidebar1!=null){
+                            documentItemSave= sidebar1.html();
+                            titleDetail= sidebar1.selectFirst("h1").text();
+                            descriptionDetail= sidebar1.selectFirst("p").text();
+                            pubDateDetail= sidebar1.selectFirst("span").text();
+                            article= sidebar1.select("article").first();
+                        }
+                        else {
+                            documentItemSave= container.html();
+                            titleDetail= container.selectFirst("h1").text();
+                            descriptionDetail= container.selectFirst("p").text();
+                            pubDateDetail= container.selectFirst("span").text();
+                            article= container.select("article").first();
+                        }
+                        Elements lineDetail= article.select("p.Normal, table, div#article_content, p.MsNormal, div.width_common");
                         for (Element element: lineDetail){
                             String imageLink= null;
                             String textTitle= null;
@@ -259,13 +268,19 @@ public class ShowDetail extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Max", Toast.LENGTH_LONG).show();
                     adapter= new ItemsDetailAdapter(getBaseContext(), strings, textSize);
                     recyclerViewDetail.setAdapter(adapter);
+                    adapter.setZoomImage(new IOnClickZoomImage() {
+                        @Override
+                        public void onClick(String linkImage) {
+                            showDialog(linkImage);
+                        }
+                    });
                     adapter.notifyDataSetChanged();
                 }
             });
             btZoomOut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(textSize>9){
+                    if(textSize>13){
                         textSize-=2;
                         Toast.makeText(getBaseContext(), R.string.zoomOut, Toast.LENGTH_LONG).show();
                     }
@@ -274,6 +289,12 @@ public class ShowDetail extends AppCompatActivity {
                         Toast.makeText(getBaseContext(), "Min", Toast.LENGTH_LONG).show();
                     adapter= new ItemsDetailAdapter(getBaseContext(), strings, textSize);
                     recyclerViewDetail.setAdapter(adapter);
+                    adapter.setZoomImage(new IOnClickZoomImage() {
+                        @Override
+                        public void onClick(String linkImage) {
+                            showDialog(linkImage);
+                        }
+                    });
                     adapter.notifyDataSetChanged();
                 }
             });
@@ -393,4 +414,6 @@ public class ShowDetail extends AppCompatActivity {
         DialogZoomImage dialogZoomImage= DialogZoomImage.newInstance(linkImage);
         dialogZoomImage.show(fragmentManager, null);
     }
+
+
 }

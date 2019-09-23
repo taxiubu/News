@@ -53,5 +53,9 @@ public class PublicMethod {
         int indexLast= s.indexOf("\"", indexFirst+10);
         return s.substring(indexFirst+7, indexLast);
     }
-
+    public String dataURL(String s){
+        int indexFirst= s.indexOf("href=");
+        int indexLast= s.indexOf("\"", indexFirst+10);
+        return s.substring(indexFirst+6, indexLast);
+    }
 }

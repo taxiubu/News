@@ -52,7 +52,7 @@ public class FragmentItems extends Fragment {
 
     private void loadRSS() {
         AsyncTask<String, String, String> loadRSSAsync= new AsyncTask<String, String, String>() {
-            ProgressDialog mDialong= new ProgressDialog(getContext());
+            ProgressDialog mDialog = new ProgressDialog(getContext());
             @Override
             protected String doInBackground(String... strings) {
                 String result;
@@ -63,13 +63,13 @@ public class FragmentItems extends Fragment {
 
             @Override
             protected void onPreExecute() {
-                mDialong.setMessage("Loading ...");
-                mDialong.show();
+                mDialog.setMessage("Loading ...");
+                mDialog.show();
             }
 
             @Override
             protected void onPostExecute(String s) {
-                mDialong.dismiss();
+                mDialog.dismiss();
                 rssObject= new Gson().fromJson(s, RootObject.class);
                 ItemAdapter itemAdapter= new ItemAdapter(rssObject, getContext());
                 recyclerView.setAdapter(itemAdapter);

@@ -27,4 +27,7 @@ public class Define {
     public static String BACKGROUND_04= "https://www.vietfuntravel.com.vn/image/data/Ha-Noi/pho-co-ha-noi/pho-co-ha-noi-nam-o-duong-nao-h1.jpg";
     public static String BACKGROUND_05= "http://diendan.fall.vn/stores/news_dataimages/hiep/092018/11/14/142853baoxaydung_9.jpg";
     public static String BACKGROUND_06= "https://ezcloud.vn/wp-content/uploads/2019/06/kinh-nghiem-thue-phong-khach-san-tai-da-lat-3jpg-1.jpg";
+
+    public static String URL_SEARCH= "https://timkiem.vnexpress.net/?search_f=all&q=";
+    public static String END_URL_SEARCH="&cate_code=&media_type=all&latest=&fromdate=&todate=&date_format=all";
 }
