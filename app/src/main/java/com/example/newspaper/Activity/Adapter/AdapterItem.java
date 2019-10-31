@@ -21,7 +21,7 @@ import com.example.newspaper.Activity.Model.RootObject;
 import com.example.newspaper.R;
 
 // adapter bài viết của từng mục
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHoder> {
+public class AdapterItem extends RecyclerView.Adapter<AdapterItem.ViewHoder> {
     private RootObject rssObject;
     private Context mContext;
     private LayoutInflater inflater;
@@ -31,7 +31,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHoder> {
         this.IOnClickItem = IOnClickItem;
     }
 
-    public ItemAdapter(RootObject rssObject, Context mContext) {
+    public AdapterItem(RootObject rssObject, Context mContext) {
         this.rssObject = rssObject;
         this.mContext = mContext;
         inflater = LayoutInflater.from(mContext);

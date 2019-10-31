@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.newspaper.Activity.Adapter.ItemAdapter;
+import com.example.newspaper.Activity.Adapter.AdapterItem;
 import com.example.newspaper.Activity.Common.HTTPData;
 import com.example.newspaper.Activity.Define.PublicMethod;
 import com.example.newspaper.Activity.Interface.IOnClickItem;
@@ -71,7 +71,7 @@ public class FragmentItems extends Fragment {
             protected void onPostExecute(String s) {
                 mDialog.dismiss();
                 rssObject= new Gson().fromJson(s, RootObject.class);
-                ItemAdapter itemAdapter= new ItemAdapter(rssObject, getContext());
+                AdapterItem itemAdapter= new AdapterItem(rssObject, getContext());
                 recyclerView.setAdapter(itemAdapter);
                 itemAdapter.setIOnClickItem(new IOnClickItem() {
                     @Override

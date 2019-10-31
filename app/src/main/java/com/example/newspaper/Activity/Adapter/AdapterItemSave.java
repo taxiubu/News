@@ -12,7 +12,7 @@ import com.example.newspaper.Activity.Model.ItemSave;
 import com.example.newspaper.R;
 import java.util.ArrayList;
 // adapter bài viết đã lưu
-public class ItemSaveAdapter extends RecyclerView.Adapter<ItemSaveAdapter.ViewHoder> {
+public class AdapterItemSave extends RecyclerView.Adapter<AdapterItemSave.ViewHoder> {
     private Context context;
     private ArrayList<ItemSave> list;
     private LayoutInflater inflater;
@@ -22,7 +22,7 @@ public class ItemSaveAdapter extends RecyclerView.Adapter<ItemSaveAdapter.ViewHo
         this.IOnClickSaveItem = IOnClickSaveItem;
     }
 
-    public ItemSaveAdapter(Context context, ArrayList<ItemSave> list) {
+    public AdapterItemSave(Context context, ArrayList<ItemSave> list) {
         this.context = context;
         this.list = list;
         inflater= LayoutInflater.from(context);

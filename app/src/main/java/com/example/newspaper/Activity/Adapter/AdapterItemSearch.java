@@ -17,7 +17,7 @@ import com.example.newspaper.R;
 
 import java.util.List;
 
-public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.ViewHorder> {
+public class AdapterItemSearch extends RecyclerView.Adapter<AdapterItemSearch.ViewHorder> {
     private List<ItemSearch> searchList;
     private Context mcontext;
     private LayoutInflater inflater;
@@ -27,7 +27,7 @@ public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.Vi
         this.onClickItem = onClickItem;
     }
 
-    public ItemSearchAdapter(List<ItemSearch> searchList, Context mcontext) {
+    public AdapterItemSearch(List<ItemSearch> searchList, Context mcontext) {
         this.searchList = searchList;
         this.mcontext = mcontext;
         inflater= LayoutInflater.from(mcontext);
@@ -35,13 +35,13 @@ public class ItemSearchAdapter extends RecyclerView.Adapter<ItemSearchAdapter.Vi
 
     @NonNull
     @Override
-    public ItemSearchAdapter.ViewHorder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterItemSearch.ViewHorder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= inflater.inflate(R.layout.item_search, parent, false);
         return new ViewHorder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemSearchAdapter.ViewHorder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterItemSearch.ViewHorder holder, int position) {
         final ItemSearch itemSearch= searchList.get(position);
         holder.tvTitleItemSearch.setText(itemSearch.getTitle());
         Glide.with(mcontext)

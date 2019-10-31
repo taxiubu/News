@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.newspaper.Activity.Activity.ShowDetail;
-import com.example.newspaper.Activity.Adapter.ClickHistoryAdapter;
+import com.example.newspaper.Activity.Adapter.AdapterClickHistory;
 import com.example.newspaper.Activity.Interface.IOnClickItem;
 import com.example.newspaper.Activity.Model.ItemRelated;
 import com.example.newspaper.Activity.SQL.SQLClickHistory;
@@ -28,7 +28,7 @@ public class FragmentHistory extends Fragment {
     SQLClickHistory sqlClickHistory;
     TextView btRemoveAll;
     List<ItemRelated> getList, listHistory;
-    ClickHistoryAdapter adapter;
+    AdapterClickHistory adapter;
     public static FragmentHistory newInstance() {
 
         Bundle args = new Bundle();
@@ -57,7 +57,7 @@ public class FragmentHistory extends Fragment {
         }
 
         //Dùng Adapter
-        adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) listHistory);
+        adapter= new AdapterClickHistory(getContext(), (ArrayList<ItemRelated>) listHistory);
         rcvItemHistory.setAdapter(adapter);
         adapter.setIOnClickItem(new IOnClickItem() {
             @Override
@@ -93,7 +93,7 @@ public class FragmentHistory extends Fragment {
             public void onClick(View view) {
                 sqlClickHistory.deleteAll();
                 getList= sqlClickHistory.getAllItem();
-                adapter= new ClickHistoryAdapter(getContext(), (ArrayList<ItemRelated>) getList);
+                adapter= new AdapterClickHistory(getContext(), (ArrayList<ItemRelated>) getList);
                 rcvItemHistory.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), R.string.removeAll, Toast.LENGTH_LONG).show();

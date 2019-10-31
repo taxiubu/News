@@ -53,4 +53,5 @@
     <string name="dark">Tối</string>
     <string name="light">Sáng</string>
     <string name="search">Tìm kiếm</string>
+    <string name="onBack">Nhấn lại để thoát!</string>
 </resources>

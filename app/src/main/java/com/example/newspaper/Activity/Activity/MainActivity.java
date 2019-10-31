@@ -39,7 +39,6 @@ import com.example.newspaper.Activity.Interface.IOnClickItem;
 import com.example.newspaper.Activity.Model.ItemRelated;
 import com.example.newspaper.Activity.SQL.SQLClickHistory;
 import com.example.newspaper.R;
-import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.android.material.navigation.NavigationView;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
@@ -48,10 +47,7 @@ import com.smarteist.autoimageslider.SliderView;
 import java.util.List;
 import java.util.Locale;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IOnClickItem {
@@ -65,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     EditText etSearch;
     ImageView btSearch;
     RelativeLayout layoutSearch;
+    int count=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,17 +79,10 @@ public class MainActivity extends AppCompatActivity
 
         getFragment(FragmentItems.newInstance(Define.RSS_to_Json_API +Define.RSS_thoisu));
         //startService(new Intent(getBaseContext(), ServiceNotification.class));
-        imageToolbar= findViewById(R.id.imageToolbar);
-        SliderAdapter sliderAdapter= new SliderAdapter(getBaseContext());
-        imageToolbar.setSliderAdapter(sliderAdapter);
-
-        imageToolbar.setIndicatorAnimation(IndicatorAnimations.SLIDE);
-        imageToolbar.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-        contain= findViewById(R.id.contain);
+        findViewByID();
+        sliderShow();
 
         //search
-        layoutSearch= findViewById(R.id.layoutSearch);
-        etSearch= findViewById(R.id.etSearch);
         etSearch.setInputType(InputType.TYPE_NULL);
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +92,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        btSearch= findViewById(R.id.btSearch);
         btSearch.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -291,7 +280,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         internet= ReactiveNetwork.observeInternetConnectivity()
@@ -309,7 +298,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 });
-    }
+    }*/
 
     @Override
     public void onClick(String title, String link) {
@@ -368,4 +357,21 @@ public class MainActivity extends AppCompatActivity
         InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.showSoftInput(etSearch, InputMethodManager.SHOW_FORCED);
     }
+    public void sliderShow(){
+        SliderAdapter sliderAdapter= new SliderAdapter(getBaseContext());
+        imageToolbar.setSliderAdapter(sliderAdapter);
+
+        imageToolbar.setIndicatorAnimation(IndicatorAnimations.SLIDE);
+        imageToolbar.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+    }
+    private void findViewByID(){
+        imageToolbar= findViewById(R.id.imageToolbar);
+        layoutSearch= findViewById(R.id.layoutSearch);
+        etSearch= findViewById(R.id.etSearch);
+        contain= findViewById(R.id.contain);
+        btSearch= findViewById(R.id.btSearch);
+    }
+
+
 }
+

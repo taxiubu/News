@@ -16,8 +16,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.newspaper.Activity.Adapter.ItemsDetailAdapter;
-import com.example.newspaper.Activity.Adapter.RelatedItemAdapter;
+import com.example.newspaper.Activity.Adapter.AdapterItemsDetail;
+import com.example.newspaper.Activity.Adapter.AdapterRelatedItem;
 import com.example.newspaper.Activity.Define.PublicMethod;
 import com.example.newspaper.Activity.DialogCustom.DialogZoomImage;
 import com.example.newspaper.Activity.Interface.IOnClickItem;
@@ -45,8 +45,8 @@ public class ShowDetail extends AppCompatActivity {
     TextView btSave;
     TextView tvShowTitle, tvPubDateShow, tvDesShow;
     RecyclerView recyclerViewDetail, recyclerViewRelatedItem;
-    ItemsDetailAdapter adapter;
-    RelatedItemAdapter relatedItemAdapter;
+    AdapterItemsDetail adapter;
+    AdapterRelatedItem relatedItemAdapter;
     String titleDetail, descriptionDetail, pubDateDetail;
     SQLItemSave itemSave;
     String documentItemSave;
@@ -266,7 +266,7 @@ public class ShowDetail extends AppCompatActivity {
 
                     else
                         Toast.makeText(getBaseContext(), "Max", Toast.LENGTH_LONG).show();
-                    adapter= new ItemsDetailAdapter(getBaseContext(), strings, textSize);
+                    adapter= new AdapterItemsDetail(getBaseContext(), strings, textSize);
                     recyclerViewDetail.setAdapter(adapter);
                     adapter.setZoomImage(new IOnClickZoomImage() {
                         @Override
@@ -287,7 +287,7 @@ public class ShowDetail extends AppCompatActivity {
 
                     else
                         Toast.makeText(getBaseContext(), "Min", Toast.LENGTH_LONG).show();
-                    adapter= new ItemsDetailAdapter(getBaseContext(), strings, textSize);
+                    adapter= new AdapterItemsDetail(getBaseContext(), strings, textSize);
                     recyclerViewDetail.setAdapter(adapter);
                     adapter.setZoomImage(new IOnClickZoomImage() {
                         @Override
@@ -299,7 +299,7 @@ public class ShowDetail extends AppCompatActivity {
                 }
             });
             //setAdapter cho rcvDetail
-            adapter= new ItemsDetailAdapter(getBaseContext(), strings, textSize);
+            adapter= new AdapterItemsDetail(getBaseContext(), strings, textSize);
             recyclerViewDetail.setAdapter(adapter);
             adapter.setZoomImage(new IOnClickZoomImage() {
                 @Override
@@ -380,7 +380,7 @@ public class ShowDetail extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<ItemRelated> strings) {
             super.onPostExecute(strings);
-            relatedItemAdapter = new RelatedItemAdapter(getBaseContext(), strings);
+            relatedItemAdapter = new AdapterRelatedItem(getBaseContext(), strings);
             recyclerViewRelatedItem.setAdapter(relatedItemAdapter);
 
             //click vào bài viết

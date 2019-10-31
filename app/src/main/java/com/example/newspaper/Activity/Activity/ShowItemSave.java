@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.newspaper.Activity.Adapter.ItemsDetailAdapter;
+import com.example.newspaper.Activity.Adapter.AdapterItemsDetail;
 import com.example.newspaper.Activity.Define.PublicMethod;
 import com.example.newspaper.Activity.DialogCustom.DialogZoomImage;
 import com.example.newspaper.Activity.Interface.IOnClickZoomImage;
@@ -37,7 +37,7 @@ public class ShowItemSave extends AppCompatActivity {
     ImageView btZoomOutOff, btZoomInOff, btBrightness;
     PublicMethod publicMethod= new PublicMethod();
     Float sizeText= 15F;
-    ItemsDetailAdapter detailAdapter;
+    AdapterItemsDetail detailAdapter;
     RelativeLayout layoutBrightness;
     int check= 0;
     @Override
@@ -110,7 +110,7 @@ public class ShowItemSave extends AppCompatActivity {
         }
 
         //setAdapter
-        detailAdapter= new ItemsDetailAdapter(getBaseContext(), (ArrayList<Detail>) details, sizeText);
+        detailAdapter= new AdapterItemsDetail(getBaseContext(), (ArrayList<Detail>) details, sizeText);
         rcvItemSaveDetail.setAdapter(detailAdapter);
         detailAdapter.setZoomImage(new IOnClickZoomImage() {
             @Override
@@ -129,7 +129,7 @@ public class ShowItemSave extends AppCompatActivity {
                 }
                 else
                     Toast.makeText(getBaseContext(), "Min", Toast.LENGTH_LONG).show();
-                detailAdapter= new ItemsDetailAdapter(getBaseContext(), (ArrayList<Detail>) details, sizeText);
+                detailAdapter= new AdapterItemsDetail(getBaseContext(), (ArrayList<Detail>) details, sizeText);
                 rcvItemSaveDetail.setAdapter(detailAdapter);
             }
         });
@@ -142,7 +142,7 @@ public class ShowItemSave extends AppCompatActivity {
                 }
                 else
                     Toast.makeText(getBaseContext(), "Max", Toast.LENGTH_LONG).show();
-                detailAdapter= new ItemsDetailAdapter(getBaseContext(), (ArrayList<Detail>) details, sizeText);
+                detailAdapter= new AdapterItemsDetail(getBaseContext(), (ArrayList<Detail>) details, sizeText);
                 rcvItemSaveDetail.setAdapter(detailAdapter);
             }
         });

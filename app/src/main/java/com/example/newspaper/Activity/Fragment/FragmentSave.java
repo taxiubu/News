@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.newspaper.Activity.Activity.ShowItemSave;
-import com.example.newspaper.Activity.Adapter.ItemSaveAdapter;
+import com.example.newspaper.Activity.Adapter.AdapterItemSave;
 import com.example.newspaper.Activity.Interface.IOnClickSaveItem;
 import com.example.newspaper.Activity.Model.ItemSave;
 import com.example.newspaper.Activity.SQL.SQLItemSave;
@@ -29,7 +29,7 @@ public class FragmentSave extends Fragment {
     SQLItemSave sqlItemSave;
     TextView btRemoveAll;
     List<ItemSave> getList, saveList;
-    ItemSaveAdapter itemSaveAdapter;
+    AdapterItemSave itemSaveAdapter;
     public static FragmentSave newInstance() {
 
         Bundle args = new Bundle();
@@ -56,7 +56,7 @@ public class FragmentSave extends Fragment {
         for(int i = size-1; i>=0; i--){
             saveList.add(getList.get(i));
         }
-        itemSaveAdapter= new ItemSaveAdapter(getContext(), (ArrayList<ItemSave>) saveList);
+        itemSaveAdapter= new AdapterItemSave(getContext(), (ArrayList<ItemSave>) saveList);
         rcvItemSave.setAdapter(itemSaveAdapter);
         itemSaveAdapter.setIOnClickSaveItem(new IOnClickSaveItem() {
             @Override
@@ -92,7 +92,7 @@ public class FragmentSave extends Fragment {
             public void onClick(View view) {
                 sqlItemSave.deleteAll();
                 getList= sqlItemSave.getAllItemSave();
-                itemSaveAdapter= new ItemSaveAdapter(getContext(), (ArrayList<ItemSave>) getList);
+                itemSaveAdapter= new AdapterItemSave(getContext(), (ArrayList<ItemSave>) getList);
                 rcvItemSave.setAdapter(itemSaveAdapter);
                 itemSaveAdapter.notifyDataSetChanged();
                 Toast.makeText(getContext(), R.string.removeAll, Toast.LENGTH_LONG).show();

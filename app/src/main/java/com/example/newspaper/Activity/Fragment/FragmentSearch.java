@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.newspaper.Activity.Activity.ShowDetail;
-import com.example.newspaper.Activity.Adapter.ItemSearchAdapter;
+import com.example.newspaper.Activity.Adapter.AdapterItemSearch;
 import com.example.newspaper.Activity.Define.Define;
 import com.example.newspaper.Activity.Define.PublicMethod;
 import com.example.newspaper.Activity.Interface.IOnClickItem;
@@ -35,7 +35,7 @@ import java.util.List;
 public class FragmentSearch extends Fragment {
     SQLClickHistory sqlClickHistory;
     RecyclerView rcvItemSearch;
-    ItemSearchAdapter adapter;
+    AdapterItemSearch adapter;
     PublicMethod publicMethod= new PublicMethod();
     public static FragmentSearch newInstance(String titleSearch) {
 
@@ -55,7 +55,8 @@ public class FragmentSearch extends Fragment {
         rcvItemSearch= view.findViewById(R.id.rcvItemSearch);
         RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         rcvItemSearch.setLayoutManager(layoutManager);
-        new loadItemSearch().execute(urlSearch);
+        if(publicMethod.checkConnectInternet(getContext()))
+            new loadItemSearch().execute(urlSearch);
         return view;
     }
     private String fixString(String s){
@@ -101,7 +102,7 @@ public class FragmentSearch extends Fragment {
         protected void onPostExecute(ArrayList<ItemSearch> itemSearches) {
             super.onPostExecute(itemSearches);
             dialog.dismiss();
-            adapter= new ItemSearchAdapter(itemSearches, getContext());
+            adapter= new AdapterItemSearch(itemSearches, getContext());
             rcvItemSearch.setAdapter(adapter);
             adapter.setOnClickItem(new IOnClickItem() {
                 @Override
@@ -127,4 +128,5 @@ public class FragmentSearch extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
+
 }

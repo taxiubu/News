@@ -18,7 +18,7 @@ import com.example.newspaper.R;
 
 import java.util.ArrayList;
 // adapter phần thông tin của bài viết
-public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.ViewDetailHoder> {
+public class AdapterItemsDetail extends RecyclerView.Adapter<AdapterItemsDetail.ViewDetailHoder> {
     private Context context;
     private ArrayList<Detail> list;
     private LayoutInflater inflater;
@@ -29,7 +29,7 @@ public class ItemsDetailAdapter extends RecyclerView.Adapter<ItemsDetailAdapter.
         this.zoomImage = zoomImage;
     }
 
-    public ItemsDetailAdapter(Context context, ArrayList<Detail> list, float sizeText) {
+    public AdapterItemsDetail(Context context, ArrayList<Detail> list, float sizeText) {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
